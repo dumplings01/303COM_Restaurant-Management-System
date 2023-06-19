@@ -22,7 +22,7 @@ public class Customer {
     @Column(name="email", length=256, nullable=false)
     private String email;
 
-    @Column(name="password", length=50, nullable=false)
+    @Column(name="password", length=256, nullable=false)
     private String password;
 
     @Column(name="contactNumber", length=11, nullable=false)

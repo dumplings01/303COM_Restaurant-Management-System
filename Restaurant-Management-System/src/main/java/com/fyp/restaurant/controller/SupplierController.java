@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.UUID;
 
 @RestController
@@ -49,6 +50,30 @@ public class SupplierController {
         supplierRepository.save(value);
 
         return new ResponseEntity<Supplier>(value, HttpStatus.OK);
+    }
+
+    // update supplier
+    @PutMapping("/updateSupplierHistory")
+    public ResponseEntity<?> updateSupplierHistory(@Valid @RequestParam(value="supplierId") UUID supplierId,
+                                                   @RequestBody SupplierRequestModel supplierDetails)
+    {
+        Supplier updateSupplier = supplierRepository.findBySupplierId(supplierId);
+
+        updateSupplier.setSupplierName(supplierDetails.getSupplierName());
+        updateSupplier.setStockName(supplierDetails.getStockName());
+        updateSupplier.setStockType(supplierDetails.getStockType());
+        updateSupplier.setStockQuantity(supplierDetails.getStockQuantity());
+        updateSupplier.setStockWeight(supplierDetails.getStockWeight());
+        updateSupplier.setUnitOfMeasurement(supplierDetails.getUnitOfMeasurement());
+        updateSupplier.setEstimatedDeliveryTime(supplierDetails.getEstimatedDeliveryTime());
+        updateSupplier.setTimeDelivered(supplierDetails.getTimeDelivered());
+        updateSupplier.setStockCondition(supplierDetails.getStockCondition());
+        updateSupplier.setStockCost(supplierDetails.getStockCost());
+
+        supplierRepository.save(updateSupplier);
+
+        return new ResponseEntity<Supplier>(updateSupplier, HttpStatus.OK);
+
     }
 
     // delete supplier profile

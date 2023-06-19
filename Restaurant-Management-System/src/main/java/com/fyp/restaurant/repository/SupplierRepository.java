@@ -11,4 +11,5 @@ public interface SupplierRepository extends JpaRepository<Supplier, UUID> {
 
     Supplier findBySupplierId(UUID supplierId);
 
+
 }

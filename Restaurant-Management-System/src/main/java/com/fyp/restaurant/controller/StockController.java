@@ -60,7 +60,7 @@ public class StockController {
     // update record
     @PutMapping("/updateStock")
     public ResponseEntity<?> updateStock(@Valid @RequestParam(value="stockId") UUID stockId,
-                                         @RequestBody Stock stockDetails)
+                                         @RequestBody StockRequestModel stockDetails)
     {
         Stock updateStock = stockRepository.findByStockId(stockId);
 
@@ -80,6 +80,7 @@ public class StockController {
         stockRepository.save(updateStock);
 
         return new ResponseEntity<Stock>(updateStock, HttpStatus.OK);
+
     }
 
     // delete record

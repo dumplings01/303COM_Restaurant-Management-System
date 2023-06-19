@@ -23,7 +23,7 @@ public class Admin {
     @Column(name="email", length=256, nullable=false)
     private String email;
 
-    @Column(name="password", length=50, nullable=false)
+    @Column(name="password", length=256, nullable=false)
     private String password;
 
     @ElementCollection

@@ -19,7 +19,7 @@ public class AdminRequestModel {
     private String email;
 
     @NotNull
-    @Size(max=50, message = "Password must be lesser than 50 characters")
+    @Size(max=256, message = "Password must be lesser than 50 characters")
     private String password;
 
     @ElementCollection

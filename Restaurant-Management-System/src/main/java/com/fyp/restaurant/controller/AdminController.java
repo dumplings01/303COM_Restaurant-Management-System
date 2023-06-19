@@ -3,6 +3,7 @@ package com.fyp.restaurant.controller;
 import com.fyp.restaurant.model.Admin;
 import com.fyp.restaurant.model.AdminRequestModel;
 import com.fyp.restaurant.repository.AdminRepository;
+import com.fyp.restaurant.repository.CustomerRepository;
 import com.fyp.restaurant.service.SystemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,12 @@ import java.util.UUID;
 public class AdminController {
 
     private final AdminRepository adminRepository;
+    private final CustomerRepository customerRepository;
 
-    public AdminController(AdminRepository adminRepository) {
+
+    public AdminController(AdminRepository adminRepository, CustomerRepository customerRepository) {
         this.adminRepository = adminRepository;
+        this.customerRepository = customerRepository;
     }
 
     // get admin profile
@@ -35,9 +39,33 @@ public class AdminController {
     {
         Admin value = new SystemService().createStaffAccount(admin);
 
+        if (customerRepository.existsByEmail(value.getEmail()) || adminRepository.existsByEmail(value.getEmail())){
+            return new ResponseEntity<>("Email already taken!", HttpStatus.BAD_REQUEST);
+        }
+
         adminRepository.save(value);
 
         return new ResponseEntity<Admin>(value, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateAdminProfile")
+    public ResponseEntity<?> updateAdminProfile(@Valid @RequestParam(value="adminId") UUID adminId,
+                                                @RequestBody AdminRequestModel adminDetails)
+    {
+        Admin updateProfile = adminRepository.findByAdminId(adminId);
+
+        if (adminRepository.existsByEmail(updateProfile.getEmail()))
+        {
+            return new ResponseEntity<>("Email is not available or taken! Please check again!", HttpStatus.BAD_REQUEST);
+        }
+
+        updateProfile.setName(adminDetails.getName());
+        updateProfile.setEmail(adminDetails.getEmail());
+        updateProfile.setPassword(adminDetails.getPassword());
+
+        adminRepository.save(updateProfile);
+
+        return new ResponseEntity<Admin>(updateProfile, HttpStatus.OK);
     }
 
     // delete admin profile

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,8 +30,16 @@ public class ReservationController {
     @GetMapping("/getAllReservation")
     public Page<Reservation> getAllReservation(@RequestParam(defaultValue = "0") int currentPage)
     {
-        Pageable pageable = PageRequest.of(currentPage, 5);
+        Pageable pageable = PageRequest.of(currentPage, 3);
         return (Page<Reservation>) this.reservationRepository.findAll(pageable);
+    }
+
+    // get all reservation from single user
+    @GetMapping("/getReservationsFromUser")
+    public List<Reservation> getReservation (@RequestParam(name="customerId") UUID customerId)
+    {
+
+        return (List<Reservation>) this.reservationRepository.findByCustomerId(customerId);
     }
 
     // get single reservation
@@ -50,6 +59,26 @@ public class ReservationController {
 
         return new ResponseEntity<Reservation>(value, HttpStatus.OK);
     }
+
+    // update reservation
+    @PutMapping("/updateReservation")
+    public ResponseEntity<?> updateReservation(@Valid @RequestParam(value="reservationId") UUID reservationId,
+                                               @RequestBody ReservationRequestModel reservationDetails)
+    {
+        Reservation updateReservation = reservationRepository.findByReservationId(reservationId);
+
+        updateReservation.setCustomerId(reservationDetails.getCustomerId());
+        updateReservation.setCustomerName(reservationDetails.getCustomerName());
+        updateReservation.setCustomerContact(reservationDetails.getCustomerContact());
+        updateReservation.setReservationDate(reservationDetails.getReservationDate());
+        updateReservation.setNumberOfPeople(reservationDetails.getNumberOfPeople());
+        updateReservation.setCustomerRemarks(reservationDetails.getCustomerRemarks());
+
+        reservationRepository.save(updateReservation);
+
+        return new ResponseEntity<Reservation>(updateReservation, HttpStatus.OK);
+    }
+
 
     // delete reservation
     @DeleteMapping("/deleteReservation")

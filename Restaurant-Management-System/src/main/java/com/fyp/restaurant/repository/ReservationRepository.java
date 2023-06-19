@@ -1,17 +1,19 @@
 package com.fyp.restaurant.repository;
 
 import com.fyp.restaurant.model.Reservation;
-import com.fyp.restaurant.model.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
 
     Reservation findByReservationId(UUID reservationId);
+
+    List<Reservation> findByCustomerId (UUID customerId);
 
     Boolean existsByCustomerId(UUID customerId);
 

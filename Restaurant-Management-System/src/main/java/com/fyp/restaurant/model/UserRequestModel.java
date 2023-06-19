@@ -4,11 +4,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class CustomerRequestModel {
-
-    @NotNull
-    @Size(max=50, message = "Name must be lesser than 50 characters")
-    private String name;
+public class UserRequestModel {
 
     @NotNull
     @Size(max=255)
@@ -17,22 +13,8 @@ public class CustomerRequestModel {
     private String email;
 
     @NotNull
-    @Pattern(regexp="(01\\d-\\d{7}$)",
-            message = "Contact number format invalid!")
-    private String contactNumber;
-
-    @NotNull
     @Size(max=255)
     private String password;
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;
@@ -48,13 +30,5 @@ public class CustomerRequestModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
     }
 }
