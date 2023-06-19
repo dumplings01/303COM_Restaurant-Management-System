@@ -1,6 +1,6 @@
 import NavBar from '../NavBar';
 
-function AdminCustomerList() {
+function AdminCreateNewReservation() {
     return (
 		<>
 			<NavBar />
@@ -8,4 +8,4 @@ function AdminCustomerList() {
 		)
 }
 
-export default AdminCustomerList;
+export default AdminCreateNewReservation;

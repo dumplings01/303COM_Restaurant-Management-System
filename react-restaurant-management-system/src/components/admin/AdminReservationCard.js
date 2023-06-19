@@ -81,3 +81,15 @@
 // }
 
 // export default ProfileCard;
+import NavBar from '../NavBar';
+
+function AdminReservationCard() {
+        
+    return (
+        <>
+            <NavBar />
+        </>
+    )
+}
+
+export default AdminReservationCard;

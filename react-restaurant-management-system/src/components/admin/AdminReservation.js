@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import NavBar from '../NavBar';
 import AdminReservationCard from './AdminReservationCard';
 
 import Button from 'react-bootstrap/Button';
@@ -10,13 +11,13 @@ function AdminReservation() {
     const [totalPage, setTotalPage] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
 
-    // useEffect(() => {
-    //     var currentUser = sessionStorage.getItem("currentUser");
-    //     if(currentUser == null){
-    //         alert("Please login to access!");
-    //         window.location.assign("/login");
-    //     }
-    // }, []);
+    useEffect(() => {
+        const currentUser = sessionStorage.getItem("currentUser");
+        if(currentUser == null){
+            alert("Please login to access!");
+            window.location.assign("/login");
+        }
+    }, []);
 
     useEffect(() => {
         const getAllReservation = async () => {
@@ -61,6 +62,7 @@ function AdminReservation() {
 
     return (
         <>
+        <NavBar />
         <div>
             {renderedReservations.length === 0 ? (
                 <div>

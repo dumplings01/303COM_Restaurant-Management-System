@@ -5,15 +5,15 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function NavBar () {
+function NavBarLogin () {
 
 	return (
 		<>
         <Navbar bg="dark" variant="dark">
 			<Container>
-			<Navbar.Brand href="/adminDashboard" >Restaurant Management System</Navbar.Brand>
+			<Navbar.Brand href="/login" >Restaurant Management System</Navbar.Brand>
 			<Nav>
-				<Nav.Link href="/logout">Logout</Nav.Link>
+				<Nav.Link href="#">Welcome!</Nav.Link>
 			</Nav>
 			</Container>
 		</Navbar>
@@ -22,4 +22,4 @@ function NavBar () {
 	);
 }
 
-export default NavBar;
+export default NavBarLogin;
