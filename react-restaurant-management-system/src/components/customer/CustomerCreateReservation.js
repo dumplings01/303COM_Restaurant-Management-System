@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -11,12 +12,15 @@ import NavBarCustomer from '../NavBarCustomer';
 
 function CustomerCreateReservation() {
 
+    let navigate = useNavigate();
+
     useEffect(() => {
         const currentUser = sessionStorage.getItem("currentUser");
         const userId = sessionStorage.getItem("userId");
         const userName = sessionStorage.getItem("userName");
         const userContact = sessionStorage.getItem("userContact")
-        if(currentUser == null){
+        const currentUserType = sessionStorage.getItem("currentUserType");
+        if(currentUser == null||currentUserType === "admin"){
             alert("Please login to access!");
             window.location.assign("/login");
         } else {
@@ -48,7 +52,7 @@ function CustomerCreateReservation() {
                         console.log(res);
                         if (res.status === 200) {
                             alert("Reservation created successfully!");
-                            window.location.assign("/customerViewReservation")
+                            navigate("/customerViewReservation")
                             return res;
                         }
                     }).catch((error) => {
@@ -58,13 +62,13 @@ function CustomerCreateReservation() {
                     
     }
 
-    // console.log(customerId + " " + name + " " + contactNumber + " " + reservationDate + " " + numberOfPeople + " " + remarks);
-
     return (
         <>
         <NavBarCustomer />
+        <p className="text-center fs-6 p-4 text-danger fw-bold">Note: Each customer can only have maximum two(2) ongoing and future reservations!</p>
         <h2 className="text-center mt-4 mb-4">Create Reservation</h2>
         <div className="m-auto mt-3 mb-3 col-6 border rounded border-dark">
+
             <Form onSubmit={handleSubmit}>
             <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label>Customer ID: </Form.Label>
@@ -99,7 +103,7 @@ function CustomerCreateReservation() {
                 </Form.Group>
 
                 <div className="text-center p-4">
-                    <Button variant="primary" type="submit" onClick={handleSubmit} className="me-1">Submit</Button>
+                    <Button variant="primary" type="submit" className="me-1">Submit</Button>
                 </div>
             </Form>
         </div>

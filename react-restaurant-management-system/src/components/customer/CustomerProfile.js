@@ -5,20 +5,10 @@ import {useNavigate} from 'react-router-dom';
 import NavBarCustomer from "../NavBarCustomer";
 
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
 
 function CustomerProfile() {
-
-    useEffect(() => {
-        const currentUser = sessionStorage.getItem("currentUser");
-        if(currentUser == null){
-            alert("Please login to access!");
-            window.location.assign("/login");
-        } else {
-            setEmail(currentUser);
-        }
-        // console.log(sessionStorage.getItem("currentUser"))
-    }, []);
+    
+    let navigate = useNavigate();
 
     const [customerId, setCustomerId] = useState("");
     const [customerName, setCustomerName] = useState("");
@@ -27,10 +17,20 @@ function CustomerProfile() {
     const [loyaltyPoints, setLoyaltyPoints] = useState("");
 
     useEffect(() => {
+
+        const currentUser = sessionStorage.getItem("currentUser");
+        const currentUserType = sessionStorage.getItem("currentUserType");
+        if(currentUser == null||currentUserType === "admin"){
+            alert("Please login to access!");
+            window.location.assign("/login");
+        } else {
+            setEmail(currentUser);
+        }
+
         const getProfile = async () => {
 
             try {
-                const response = await axios.get(`http://127.0.0.1:8080/customer/getCustomerProfile?email=${email}`);
+                const response = await axios.get(`http://127.0.0.1:8080/customer/getCustomerProfile?email=${sessionStorage.getItem("currentUser")}`);
                 
                 setCustomerId(response.data.customerId);
                 setCustomerName(response.data.name);
@@ -48,7 +48,7 @@ function CustomerProfile() {
     },[email]);
 
     function handleDeactivate(e) {
-		let answer = window.confirm("Delete profile of "+customerName+"?");
+		let answer = window.confirm("Deactivate account for "+customerName+"?\n\nAll reservations created by this account will be cancelled with no refunds!");
 		if (answer) {
 			axios.delete(`http://127.0.0.1:8080/customer/deleteCustomerProfile?customerId=${customerId}`)
 						.then((res) => {
@@ -67,11 +67,8 @@ function CustomerProfile() {
 					
 		}
 
-
-    const navigate = useNavigate();
-
     function handleEdit() {
-		navigate(`/customerEditProfile/${email}`);
+		navigate("/customerEditProfile");
 	};
 
     return (
@@ -79,23 +76,23 @@ function CustomerProfile() {
         <NavBarCustomer />
 
         <div className="w-75 h-75 mx-auto">
-        <Card className="m-5">
-		<Card.Header as="h3">My Profile</Card.Header>
-		<Card.Body>
-			<Card.Title as="h4">Customer Name: {customerName}</Card.Title>
-			<Card.Text>
-				<>
-					<span><b>Email: </b>{email}</span><br></br>
-					<span><b>Contact number: </b>{contactNumber}</span><br></br>
-					<span><b>Loyalty Points: </b>{loyaltyPoints}</span><br></br>
-				</>
-			</Card.Text>
-			<div className="d-flex justify-content-between">
-				<Button variant="primary" className="w-50 me-2 ms-2" onClick={() => handleEdit(email)}>Edit</Button>
-				<Button variant="danger" className="w-50" onClick={handleDeactivate}>Deactivate Account?</Button>
-			</div>
-		</Card.Body>
-		</Card>
+            <div className="card m-5" style={{height:'80%'}}>
+                <div className="card-body">
+                    <h5 className="card-title h3 text-center pb-4">My Profile</h5>
+                    <h6 className="card-subtitle mb-2 text-muted p-2">{customerName}</h6>
+                    <p className="card-text pb-5 d-flex flex-column">
+                        <span className="p-2"><b>Email: </b>{email}</span>
+                        <span className="p-2"><b>Contact number: </b>{contactNumber}</span>
+                        <span className="p-2"><b>Loyalty Points: </b>{loyaltyPoints}</span>
+                    </p>
+                    <div className="d-flex justify-content-between">
+                        <>
+                        <Button variant="primary" className="w-50 me-2 ms-2" onClick={handleEdit}>Edit Profile</Button>
+                        <Button variant="danger" className="w-50" onClick={handleDeactivate}>Deactivate Account?</Button>
+                        </>
+                    </div>
+                </div>
+            </div>
         </div>
 		</>
     )

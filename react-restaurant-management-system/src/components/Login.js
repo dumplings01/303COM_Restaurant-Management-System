@@ -54,7 +54,7 @@ function Login() {
                     if (currentUserType==="customer"){
                         navigate("/customerProfile");
                     } else if (currentUserType==="admin") {
-                        navigate("/adminDashboard");
+                        navigate("/dashboard");
                     }
 
                 }
@@ -81,7 +81,7 @@ function Login() {
 
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label>Password: </Form.Label>
-                    <Form.Control type="password" name="password" min="8" placeholder="Enter password" required onChange={
+                    <Form.Control type="password" name="password" minLength="8" placeholder="Enter password" required onChange={
                         (event) => {setPassword(event.target.value)}
                     } />
                 </Form.Group>

@@ -11,7 +11,10 @@ function NavBar () {
 		<>
         <Navbar bg="dark" variant="dark">
 			<Container>
-			<Navbar.Brand href="/adminDashboard" >Restaurant Management System</Navbar.Brand>
+			<Navbar.Brand href="/dashboard" >Restaurant Management System</Navbar.Brand>
+			<Nav className="me-auto">
+				<Nav.Link href="/dashboard">Dashboard</Nav.Link>
+			</Nav>
 			<Nav>
 				<Nav.Link href="/logout">Logout</Nav.Link>
 			</Nav>

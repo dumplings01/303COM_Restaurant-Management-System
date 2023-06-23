@@ -16,7 +16,6 @@ function CustomerRegister() {
     let navigate = useNavigate();
 
     function handleSubmit(e) {
-        console.log(name + " " + email + " " + contactNumber + " " + password)
         e.preventDefault();
 
         const getRegister = async () => {
@@ -34,7 +33,6 @@ function CustomerRegister() {
                                                     console.log(res);
                                                     if (res.status === 200){
                                                         alert("Register successful!");
-                                                        //navigate("/login");
                                                         return res;
                                                     }
 
@@ -84,7 +82,7 @@ function CustomerRegister() {
 
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label>Password: </Form.Label>
-                    <Form.Control type="password" name="password" placeholder="Enter password" min="8" required onChange={
+                    <Form.Control type="password" name="password" placeholder="Enter password" minLength="8" required onChange={
                         (event) => {setPassword(event.target.value)}
                     } />
                 </Form.Group>

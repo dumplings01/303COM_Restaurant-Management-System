@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import NavBar from '../NavBar';
@@ -7,14 +8,17 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
-function AdminCreateStock() {
+function AdminEditStock() {
+
+    let {stockId} = useParams();
+    let navigate = useNavigate();
 
     const [name, setName] = useState("");
-    const [stockType, setStockType] = useState("Condiments");
+    const [stockType, setStockType] = useState("");
     const [stockQuantity, setStockQuantity] = useState("");
     const [stockWeight, setStockWeight] = useState("");
     const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
-    
+
 	const [isChecked, setIsChecked] = useState(true);
 
     useEffect(() => {
@@ -32,59 +36,80 @@ function AdminCreateStock() {
             alert("No access to manage stocks!");
         }
     }, []);
-    
-	function handleToggle() {
+
+    useEffect(() => {
+        const getStockDetails = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8080/stock/getSingleStock?stockId=${stockId}`);
+                //console.log(response);
+                setName(response.data.name);
+                setStockType(response.data.stockType);
+                setStockQuantity(response.data.stockQuantity);
+                setStockWeight(response.data.stockWeight);
+                setUnitOfMeasurement(response.data.unitOfMeasurement);
+                if (response.data.stockQuantity===null || response.data.stockQuantity==="") {
+                    setIsChecked(false);
+                }
+                
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        getStockDetails();
+    },[stockId]);
+
+    function handleToggle() {
 		setStockQuantity("");
 		setStockWeight("");
 		setUnitOfMeasurement("");
 		setIsChecked(!isChecked);
 	}
 
-    function handleSubmit(e) {
+    function handleSubmit(e, value){
         e.preventDefault();
 
         if ((stockQuantity==="" && stockWeight==="") || (stockQuantity===null && stockWeight==="")
             || (stockQuantity==="" && stockWeight===null) || (stockQuantity===null && stockWeight===null)) {
             alert("Must have at least one stock measurement value!")
         } else {
-            axios.post(`http://127.0.0.1:8080/stock/recordStock`,
-                {
-                    name,
-                    stockType,
-                    stockQuantity,
-                    stockWeight,
-                    unitOfMeasurement
-                },
-                { headers: { "x-key": '123', } })
-                .then((res) => {
-                    console.log(res);
-                    if (res.status === 200) {
-                        alert("Stock recorded successfully!");
-                        window.location.assign("/readStockList")
-                        return res;
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    alert("Failed to create stock record!\n"+error.response.data);
-                })
-            }
-        
+            axios.put(`http://127.0.0.1:8080/stock/updateStock?stockId=${stockId}`,
+            {
+                name,
+                stockType,
+                stockQuantity,
+                stockWeight,
+                unitOfMeasurement
+            })
+            .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                    alert("Stock details updated successfully!");
+                    navigate("/readStockList");
+                    return res;
+                }
+            }).catch((error) => {
+                console.log(error);
+                alert("Failed to update stock details!\n"+error.response.data);
+            })
+        }
     }
-           
+
+    //console.log(name+" "+stockType+" "+stockQuantity+" "+stockWeight+" "+unitOfMeasurement)
+          
     return (
         <>
         <NavBar />
-        <h2 className="text-center mt-4 mb-4">Create New Stock Record</h2>
+        <h2 className="text-center mt-4 mb-4">Update Stock Record</h2>
 		<div className="m-auto mt-3 mb-3 col-6 border rounded border-dark">
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label>Name: </Form.Label>
-                    <Form.Control type="text" onChange={(e) => {setName(e.target.value)}} placeholder="Enter name" required />
+                    <Form.Control type="text" value={name} onChange={(e) => {setName(e.target.value)}} placeholder="Enter name" required />
                 </Form.Group>
 
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label>Stock Type: </Form.Label>
-                    <Form.Select defaultValue="Condiments" onChange={(e) => {setStockType(e.target.value)}} required>
+                    <Form.Select value={stockType} onChange={(e) => {setStockType(e.target.value)}} required>
                         <option value="Condiments">Condiments</option>
                         <option value="Eggs, Milk and Milk Products">Eggs, Milk and Milk Products</option>
                         <option value="Fats and Oils">Fats and Oils</option>
@@ -97,7 +122,7 @@ function AdminCreateStock() {
                         <option value="Others">Others</option>
                     </Form.Select>
                 </Form.Group>
-       
+
                 <Form.Group className="d-flex row m-5 mt-4 mb-2">
                     <Form.Label>Method of Measurement: </Form.Label>
                     <BootstrapSwitchButton checked={isChecked} onChange={handleToggle} onlabel='Quantity'
@@ -108,20 +133,20 @@ function AdminCreateStock() {
                     isChecked ? (
                         <Form.Group className="m-5 mt-4 mb-2">
                             <Form.Label>Stock Quantity: </Form.Label>
-                            <Form.Control type="number" min="1" defaultname="stockQuantity" required
+                            <Form.Control type="number" min="1" defaultname="stockQuantity" value={stockQuantity} required
                             onChange={(e) => {setStockQuantity(e.target.value)}} placeholder="Enter stock quantity" />
                         </Form.Group>
                     ) : (
                         <>
                         <Form.Group className="m-5 mt-4 mb-2">
                             <Form.Label>Stock Weight: </Form.Label>
-                            <Form.Control type="number" min="0.01" name="stockWeight" step="0.01" required
+                            <Form.Control type="number" min="0.01" name="stockWeight" step="0.01" value={stockWeight} required
                             onChange={(e) => {setStockWeight(e.target.value)}} placeholder="Enter stock weight per unit/total" />
                         </Form.Group>
 
                         <Form.Group className="m-5 mt-4 mb-2">
                             <Form.Label>Unit of Measurement: </Form.Label>
-                            <Form.Control type="text" name="unitOfMeasurement" required 
+                            <Form.Control type="text" name="unitOfMeasurement" value={unitOfMeasurement} required 
                             onChange={(e) => {setUnitOfMeasurement(e.target.value)}} placeholder="Enter unit of measurement" />
                         </Form.Group>
                         </>
@@ -129,7 +154,8 @@ function AdminCreateStock() {
                 }
 
                 <div className="text-center p-4">
-                    <Button variant="primary" type="submit" className="me-1">Create</Button>
+                    <a className="me-1 btn btn-secondary" href="/readStockList" role="button">Cancel</a>
+                    <Button variant="primary" type="submit" className="me-1">Update</Button>
                 </div>
             </Form>
         </div>
@@ -137,4 +163,4 @@ function AdminCreateStock() {
     )
 }
 
-export default AdminCreateStock;
+export default AdminEditStock;
