@@ -13,5 +13,4 @@ public interface SystemServiceImpl {
     Stock createStock(StockRequestModel stockDetails);
 
     Supplier createSupplierHistory (SupplierRequestModel supplierDetails);
-
 }

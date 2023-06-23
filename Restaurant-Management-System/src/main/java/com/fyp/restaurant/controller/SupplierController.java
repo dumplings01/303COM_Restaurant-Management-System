@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,10 +29,9 @@ public class SupplierController {
 
     // get all supplier history
     @GetMapping("/getAllSupplierHistory")
-    public Page<Supplier> getAllSupplierHistory(@RequestParam(defaultValue = "0") int currentPage)
+    public List<Supplier> getAllSupplierHistory()
     {
-        Pageable pageable = PageRequest.of(currentPage, 10);
-        return (Page<Supplier>) this.supplierRepository.findAll(pageable);
+        return this.supplierRepository.findAll();
     }
 
     // get single supplier history
@@ -68,7 +68,9 @@ public class SupplierController {
         updateSupplier.setEstimatedDeliveryTime(supplierDetails.getEstimatedDeliveryTime());
         updateSupplier.setTimeDelivered(supplierDetails.getTimeDelivered());
         updateSupplier.setStockCondition(supplierDetails.getStockCondition());
-        updateSupplier.setStockCost(supplierDetails.getStockCost());
+        updateSupplier.setDeliveryFeedback(supplierDetails.getDeliveryFeedback());
+        updateSupplier.setCostOfStock(supplierDetails.getCostOfStock());
+        updateSupplier.setStatus(supplierDetails.getStatus());
 
         supplierRepository.save(updateSupplier);
 

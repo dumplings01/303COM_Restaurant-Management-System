@@ -16,4 +16,7 @@ public interface CustomerRepository extends JpaRepository <Customer, UUID> {
 
     Customer findByEmail(String email);
 
+    Customer findByContactNumber(String contactNumber);
+
+
 }

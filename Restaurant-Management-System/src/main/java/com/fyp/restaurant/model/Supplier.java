@@ -36,14 +36,20 @@ public class Supplier {
     @Column(name="estimatedDeliveryTime", nullable = false)
     private Date estimatedDeliveryTime;
 
-    @Column(name="timeDelivered", nullable = false)
+    @Column(name="timeDelivered", nullable = true)
     private Date timeDelivered;
 
-    @Column(name="stockCondition", length=10, nullable = false)
+    @Column(name="stockCondition", length=50, nullable = true)
     private String stockCondition;
 
-    @Column(name="stockCost", nullable = false)
-    private Double stockCost;
+    @Column(name="deliveryFeedback", length=256, nullable = true)
+    private String deliveryFeedback;
+
+    @Column(name="costOfStock", nullable = false)
+    private Double costOfStock;
+
+    @Column(name="status", nullable = false)
+    private String status;
 
     @Column(name="createdAt", nullable = false)
     private Date createdAt;
@@ -58,7 +64,8 @@ public class Supplier {
     public Supplier(UUID supplierId, String supplierName, String stockName, String stockType,
                     Integer stockQuantity, Double stockWeight, String unitOfMeasurement,
                     Date estimatedDeliveryTime, Date timeDelivered, String stockCondition,
-                    Double stockCost, Date createdAt, Date updatedAt){
+                    String deliveryFeedback, Double costOfStock, String status, Date createdAt,
+                    Date updatedAt){
         this.supplierId = supplierId;
         this.supplierName = supplierName;
         this.stockName = stockName;
@@ -69,7 +76,9 @@ public class Supplier {
         this.estimatedDeliveryTime = estimatedDeliveryTime;
         this.timeDelivered = timeDelivered;
         this.stockCondition = stockCondition;
-        this.stockCost = stockCost;
+        this.deliveryFeedback = deliveryFeedback;
+        this.costOfStock = costOfStock;
+        this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -77,6 +86,7 @@ public class Supplier {
     @PrePersist
     private void onCreate() {
         supplierId = UUID.randomUUID();
+        status = "Order Placed";
         createdAt = new Date();
     }
 
@@ -160,12 +170,28 @@ public class Supplier {
         this.stockCondition = stockCondition;
     }
 
-    public Double getStockCost() {
-        return stockCost;
+    public String getDeliveryFeedback() {
+        return deliveryFeedback;
     }
 
-    public void setStockCost(Double stockCost) {
-        this.stockCost = stockCost;
+    public void setDeliveryFeedback(String deliveryFeedback) {
+        this.deliveryFeedback = deliveryFeedback;
+    }
+
+    public Double getCostOfStock() {
+        return costOfStock;
+    }
+
+    public void setCostOfStock(Double costOfStock) {
+        this.costOfStock = costOfStock;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {

@@ -1,6 +1,5 @@
 package com.fyp.restaurant.model;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -27,15 +26,18 @@ public class SupplierRequestModel {
     @NotNull
     private Date estimatedDeliveryTime;
 
-    @NotNull
     private Date timeDelivered;
 
-    @NotNull
-    @Size(max=10, message = "Name must be lesser than 50 characters")
+    @Size(max=50, message = "Description must be lesser than 50 characters")
     private String stockCondition;
 
+    @Size(max=256)
+    private String deliveryFeedback;
+
     @NotNull
-    private Double stockCost;
+    private Double costOfStock;
+
+    private String status;
 
     public String getSupplierName() {
         return supplierName;
@@ -109,11 +111,27 @@ public class SupplierRequestModel {
         this.stockCondition = stockCondition;
     }
 
-    public Double getStockCost() {
-        return stockCost;
+    public String getDeliveryFeedback() {
+        return deliveryFeedback;
     }
 
-    public void setStockCost(Double stockCost) {
-        this.stockCost = stockCost;
+    public void setDeliveryFeedback(String deliveryFeedback) {
+        this.deliveryFeedback = deliveryFeedback;
+    }
+
+    public Double getCostOfStock() {
+        return costOfStock;
+    }
+
+    public void setCostOfStock(Double costOfStock) {
+        this.costOfStock = costOfStock;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

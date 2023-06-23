@@ -7,7 +7,8 @@ import java.util.UUID;
 @Entity
 @Table(name="stock",
         uniqueConstraints={
-                @UniqueConstraint(columnNames="stockId")
+                @UniqueConstraint(columnNames="stockId"),
+                @UniqueConstraint(columnNames = "name")
         })
 
 public class Stock {

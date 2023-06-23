@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,19 +27,18 @@ public class StockController {
         this.stockRepository = stockRepository;
     }
 
-    // return all stock records
-    @GetMapping("/getAllStocks")
-    public Page<Stock> getAllStock(@RequestParam(defaultValue="0") int currentPage)
-    {
-        Pageable pageable = PageRequest.of(currentPage, 10);
-        return (Page<Stock>) this.stockRepository.findAll(pageable);
-    }
-
     // get single stock details with stock ID
     @GetMapping("/getSingleStock")
     public Stock getSingleStock(@RequestParam(name="stockId") UUID stockId)
     {
         return this.stockRepository.findByStockId(stockId);
+    }
+
+    // return all stock records
+    @GetMapping("/getAllStocks")
+    public List<Stock> getAllStock()
+    {
+        return this.stockRepository.findAll();
     }
 
     // add new stock record
@@ -64,8 +64,8 @@ public class StockController {
     {
         Stock updateStock = stockRepository.findByStockId(stockId);
 
-        if (!(stockRepository.findByStockId(stockId).getName().equals(updateStock.getName()))
-            && stockRepository.existsByName(updateStock.getName()))
+        if (!(stockRepository.findByStockId(stockId).getName().equals(stockDetails.getName()))
+            && stockRepository.existsByName(stockDetails.getName()))
         {
             return new ResponseEntity<>("Name already exist! Please update stock or choose another name!", HttpStatus.BAD_REQUEST);
         }

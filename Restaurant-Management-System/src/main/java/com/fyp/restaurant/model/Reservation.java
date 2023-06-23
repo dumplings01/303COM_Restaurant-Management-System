@@ -38,13 +38,16 @@ public class Reservation {
     @Column(name="createdAt", nullable = true)
     private Date createdAt;
 
+    @Column(name="status",nullable = true)
+    private String status;
+
     public Reservation(){
 
     }
 
     public Reservation(UUID reservationId, UUID customerId, String customerName,
                        String customerContact, Date reservationDate, Integer numberOfPeople,
-                       String customerRemarks, Date createdAt){
+                       String customerRemarks, Date createdAt, String status){
         this.reservationId = reservationId;
         this.customerId = customerId;
         this.customerName = customerName;
@@ -53,12 +56,14 @@ public class Reservation {
         this.numberOfPeople = numberOfPeople;
         this.customerRemarks = customerRemarks;
         this.createdAt = createdAt;
+        this.status = status;
     }
 
     @PrePersist
     private void onCreate() {
         reservationId = UUID.randomUUID();
         createdAt = new Date();
+        status = "Deposit pending";
     }
 
     public UUID getReservationId() {
@@ -123,5 +128,13 @@ public class Reservation {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

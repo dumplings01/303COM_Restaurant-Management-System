@@ -15,6 +15,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
 
     List<Reservation> findByCustomerId (UUID customerId);
 
+    Integer countByCustomerId (UUID customerId);
+
     Boolean existsByCustomerId(UUID customerId);
 
     Boolean existsByReservationDate(Date reservationDate);

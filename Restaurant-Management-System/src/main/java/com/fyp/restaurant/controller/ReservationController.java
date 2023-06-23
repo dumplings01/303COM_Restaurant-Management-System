@@ -28,10 +28,9 @@ public class ReservationController {
 
     // get all reservation
     @GetMapping("/getAllReservation")
-    public Page<Reservation> getAllReservation(@RequestParam(defaultValue = "0") int currentPage)
+    public List<Reservation> getAllReservation()
     {
-        Pageable pageable = PageRequest.of(currentPage, 3);
-        return (Page<Reservation>) this.reservationRepository.findAll(pageable);
+        return this.reservationRepository.findAll();
     }
 
     // get all reservation from single user
@@ -55,6 +54,11 @@ public class ReservationController {
     {
         Reservation value = new SystemService().createReservation(reservation);
 
+        if (reservationRepository.countByCustomerId(value.getCustomerId()) >= 2)
+        {
+            return new ResponseEntity<>("Customer can only create maximum of two ongoing and future reservations!", HttpStatus.BAD_REQUEST);
+        }
+
         reservationRepository.save(value);
 
         return new ResponseEntity<Reservation>(value, HttpStatus.OK);
@@ -73,6 +77,7 @@ public class ReservationController {
         updateReservation.setReservationDate(reservationDetails.getReservationDate());
         updateReservation.setNumberOfPeople(reservationDetails.getNumberOfPeople());
         updateReservation.setCustomerRemarks(reservationDetails.getCustomerRemarks());
+        updateReservation.setStatus(reservationDetails.getStatus());
 
         reservationRepository.save(updateReservation);
 
@@ -81,7 +86,7 @@ public class ReservationController {
 
 
     // delete reservation
-    @DeleteMapping("/deleteReservation")
+    @DeleteMapping("/cancelReservation")
     public ResponseEntity<?> deleteReservation(@RequestParam(value="reservationId") UUID reservationId)
     {
         reservationRepository.deleteById(reservationId);

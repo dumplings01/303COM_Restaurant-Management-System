@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +34,20 @@ public class AdminController {
         return this.adminRepository.findByAdminId(adminId);
     }
 
+    // get admin profile
+    @GetMapping("/getAdminRoleByEmail")
+    public Admin getAdminRole (@RequestParam(name="email") String email)
+    {
+        return this.adminRepository.findByEmail(email);
+    }
+
+    // get all staffs
+    @GetMapping("/getAllStaffs")
+    public List<Admin> getAllStaffs ()
+    {
+        return this.adminRepository.findAll();
+    }
+
     // create admin profile
     @PostMapping("/createNewAdmin")
     public ResponseEntity<?> createNewAdmin(@Valid @RequestBody AdminRequestModel admin)
@@ -54,14 +69,8 @@ public class AdminController {
     {
         Admin updateProfile = adminRepository.findByAdminId(adminId);
 
-        if (adminRepository.existsByEmail(updateProfile.getEmail()))
-        {
-            return new ResponseEntity<>("Email is not available or taken! Please check again!", HttpStatus.BAD_REQUEST);
-        }
-
         updateProfile.setName(adminDetails.getName());
-        updateProfile.setEmail(adminDetails.getEmail());
-        updateProfile.setPassword(adminDetails.getPassword());
+        updateProfile.setRoles(adminDetails.getRoles());
 
         adminRepository.save(updateProfile);
 

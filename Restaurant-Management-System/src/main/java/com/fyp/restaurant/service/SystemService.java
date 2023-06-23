@@ -1,13 +1,19 @@
 package com.fyp.restaurant.service;
 
 import com.fyp.restaurant.model.*;
+import com.fyp.restaurant.repository.ReservationSlotsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.List;
 
 @Service
 public class SystemService implements SystemServiceImpl {
+
+
+    @Autowired
+    private ReservationSlotsRepository reservationSlotsRepository;
 
     BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
@@ -69,11 +75,24 @@ public class SystemService implements SystemServiceImpl {
         value.setStockWeight(supplierDetails.getStockWeight());
         value.setUnitOfMeasurement(supplierDetails.getUnitOfMeasurement());
         value.setEstimatedDeliveryTime(supplierDetails.getEstimatedDeliveryTime());
-        value.setTimeDelivered(supplierDetails.getTimeDelivered());
-        value.setStockCondition(supplierDetails.getStockCondition());
-        value.setStockCost(supplierDetails.getStockCost());
+//        value.setTimeDelivered(supplierDetails.getTimeDelivered());
+//        value.setStockCondition(supplierDetails.getStockCondition());
+//        value.setDeliveryFeedback(supplierDetails.getDeliveryFeedback());
+        value.setCostOfStock(supplierDetails.getCostOfStock());
 
         return value;
+    }
+
+    public void createSlots(List<ReservationSlots> slots){
+        for (ReservationSlots slot : slots) {
+            ReservationSlots value = new ReservationSlots();
+            value.setDate(slot.getDate());
+            value.setTime(slot.getTime());
+
+            if (!(reservationSlotsRepository.existsByDate(slot.getDate()))){
+                reservationSlotsRepository.save(value);
+            }
+        }
     }
 
 }

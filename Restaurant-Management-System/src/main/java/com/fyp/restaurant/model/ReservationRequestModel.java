@@ -31,6 +31,8 @@ public class ReservationRequestModel {
     @Size(max=256, message = "Remarks must be lesser than 256 characters")
     private String customerRemarks;
 
+    private String status;
+
     public UUID getCustomerId() {
         return customerId;
     }
@@ -77,5 +79,13 @@ public class ReservationRequestModel {
 
     public void setCustomerRemarks(String customerRemarks) {
         this.customerRemarks = customerRemarks;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
