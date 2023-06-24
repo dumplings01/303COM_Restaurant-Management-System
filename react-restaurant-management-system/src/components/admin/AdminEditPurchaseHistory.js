@@ -114,7 +114,7 @@ function AdminEditPurchaseHistory() {
 	return (
 		<>
 			<NavBar />
-            <h2 className="text-center mt-4 mb-4">Create Purchase History</h2>
+            <h2 className="text-center mt-4 mb-4">Edit Purchase History</h2>
             <div className="m-auto mt-3 mb-3 col-6 border rounded border-dark">
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="m-5 mt-4 mb-2">
@@ -182,7 +182,7 @@ function AdminEditPurchaseHistory() {
                     <Form.Group className="m-5 mt-4 mb-2">
                         <Form.Label>Time Delivered: </Form.Label>
                         <DateTimePicker className="border p-3 w-100 rounded-2" required name="timeDelivered" format="dd-MM-yyyy"
-                        onChange={setTimeDelivered} value={timeDelivered} />
+                        minDate={new Date()} onChange={setTimeDelivered} value={timeDelivered} />
                     </Form.Group>
 
                     <Form.Group className="m-5 mt-4 mb-2">
@@ -209,6 +209,7 @@ function AdminEditPurchaseHistory() {
                     </Form.Group>
 
                     <div className="text-center p-4">
+						<a className="me-1 btn btn-secondary" href="/readPurchaseHistory" role="button">Cancel</a>
                         <Button variant="primary" type="submit" className="me-1">Update</Button>
                     </div>
                 </Form>

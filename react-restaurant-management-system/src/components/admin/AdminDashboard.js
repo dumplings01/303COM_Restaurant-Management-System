@@ -80,7 +80,7 @@ function AdminDashboard() {
 
                 <ul>
                     <li><a href="createReservationSlots" className="hover-text" >Create Reservation Slots</a></li>
-                    <li><a href="slotList" className="hover-text" >Slot List</a></li>
+                    <li><a href="reservationSlotsList" className="hover-text" >Slot List</a></li>
                 </ul>
             </div>
 

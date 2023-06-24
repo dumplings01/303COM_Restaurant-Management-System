@@ -116,6 +116,7 @@ function AdminCreateReservationSlots() {
                 </Form.Group>
 
                 <div className="text-center p-4">
+                    <a className="me-1 btn btn-secondary" href="/reservationSlotsList" role="button">Cancel</a>
                     <Button variant="primary" type="submit" className="me-1">Submit</Button>
                 </div>
             </Form>

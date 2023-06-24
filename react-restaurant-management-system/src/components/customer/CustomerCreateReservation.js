@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import DateTimePicker from 'react-datetime-picker/';
 import 'react-datetime-picker/dist/DateTimePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import 'react-clock/dist/Clock.css';
@@ -13,6 +12,16 @@ import NavBarCustomer from '../NavBarCustomer';
 function CustomerCreateReservation() {
 
     let navigate = useNavigate();
+
+    const [customerId, setCustomerId] = useState([]);
+    const [name, setName] = useState([]);
+    const [contactNumber, setContactNumber] = useState([]);
+    const [reservationDate, setReservationDate] = useState("");
+    const [numberOfPeople, setNumberOfPeople] = useState([]);
+    const [remarks, setRemarks] = useState("");
+
+    const [slots, setSlots] = useState([]);
+    const [selectedSlotId, setSelectedSlotId] = useState([]);
 
     useEffect(() => {
         const currentUser = sessionStorage.getItem("currentUser");
@@ -28,14 +37,18 @@ function CustomerCreateReservation() {
             setName(userName);
             setContactNumber(userContact);
         }
+
+        const getSlots = async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8080/slots/getAllSlots`);
+                setSlots(response.data.filter(dateTime => dateTime.status === "Available"));
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        getSlots();
     }, []);
 
-    const [customerId, setCustomerId] = useState([]);
-    const [name, setName] = useState([]);
-    const [contactNumber, setContactNumber] = useState([]);
-    const [reservationDate, setReservationDate] = useState("");
-    const [numberOfPeople, setNumberOfPeople] = useState([]);
-    const [remarks, setRemarks] = useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -50,17 +63,40 @@ function CustomerCreateReservation() {
                     customerRemarks: remarks})
                     .then((res) => {
                         console.log(res);
+                        let reservationId = res.data.reservationId;
                         if (res.status === 200) {
+
+                            axios.put(`http://127.0.0.1:8080/slots/updateSlot?slotId=${selectedSlotId}`,
+                                {
+                                    status: "Taken",
+                                    reservationId
+                                })
+                                .then((res) => {
+                                    console.log(res);
+                                    if (res.status === 200) {
+                                        return res;
+                                    }
+                                }).catch((error) => {
+                                    console.log(error);
+                                })
+
                             alert("Reservation created successfully!");
                             navigate("/customerViewReservation")
                             return res;
                         }
                     }).catch((error) => {
                         console.log(error);
-                        alert("Failed to create reservation!");
+                        alert("Failed to create reservation!\n"+error.response.data);
                     })
-                    
     }
+
+    const handleSelect = (event) => {
+        const selectedValue = event.target.value;
+        const [selectedDate, selectedTime, selectedSlotId] = selectedValue.split(' ');
+        setReservationDate(selectedDate+" "+selectedTime);
+    
+        setSelectedSlotId(selectedSlotId);
+      };
 
     return (
         <>
@@ -87,8 +123,13 @@ function CustomerCreateReservation() {
 
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label className="pe-4">Date of Reservation: </Form.Label>
-                    <DateTimePicker className="border p-3 w-100 rounded-2" required name="reservationDate" format="dd-MM-yyyy h:mm aaaa"
-                    minDate={new Date()} onChange={setReservationDate} value={reservationDate} />
+                    <select onChange={handleSelect} className='mx-auto'>
+                        {slots.map((dateTime, index) => (
+                            <option key={index} value={`${dateTime.date} ${dateTime.time} ${dateTime.slotId}`}>
+                            {`${dateTime.date} ${dateTime.time}`}
+                            </option>
+                        ))}
+                    </select>
                 </Form.Group>
 
                 <Form.Group className="m-5 mt-4 mb-2">

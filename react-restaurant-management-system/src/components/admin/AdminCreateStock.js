@@ -129,6 +129,7 @@ function AdminCreateStock() {
                 }
 
                 <div className="text-center p-4">
+						<a className="me-1 btn btn-secondary" href="/readStockList" role="button">Cancel</a>
                     <Button variant="primary" type="submit" className="me-1">Create</Button>
                 </div>
             </Form>

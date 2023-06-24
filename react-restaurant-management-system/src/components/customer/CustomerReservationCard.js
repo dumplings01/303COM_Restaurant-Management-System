@@ -19,7 +19,22 @@ function CustomerReservationCard ({reservation}) {
 						.then((res) => {
 							console.log(res);
 							if (res.status === 200) {
+								axios.put(`http://127.0.0.1:8080/slots/updateSlotByReservationId?reservationId=${reservationId}`,
+                                {
+									status: "Available",
+                                    reservationId: null
+                                })
+                                .then((res) => {
+                                    console.log(res);
+                                    if (res.status === 200) {
+                                        return res;
+                                    }
+                                }).catch((error) => {
+                                    console.log(error);
+                                })
+
 								alert("Reservation cancelled successfully!");
+								window.location.reload(false);
 								return res;
 							}
 						}).catch((error) => {
