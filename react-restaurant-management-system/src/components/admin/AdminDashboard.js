@@ -51,6 +51,8 @@ function AdminDashboard() {
 
                 <ul>
                     <li><a href="adminReservationList" className="hover-text" >Reservation List</a></li>
+                    <li><a href="createReservationSlots" className="hover-text" >Add Reservation Slots</a></li>
+                    <li><a href="reservationSlotsList" className="hover-text" >Reservation Slot List</a></li>
                 </ul>
             </div>
         </div>
@@ -76,11 +78,10 @@ function AdminDashboard() {
                 
             </div>
             <div className="border border-dark col text-center p-4 m-2 d-flex flex-column">
-                <h4><b><label>Reservation Slots</label></b></h4>
+                <h4><b><label>Reservation Deposit Payments</label></b></h4>
 
                 <ul>
-                    <li><a href="createReservationSlots" className="hover-text" >Create Reservation Slots</a></li>
-                    <li><a href="reservationSlotsList" className="hover-text" >Slot List</a></li>
+                    <li><a href="reservationPayments" className="hover-text">Payment Details</a></li>
                 </ul>
             </div>
 

@@ -11,6 +11,7 @@ import CustomerEditProfile from './components/customer/CustomerEditProfile';
 import CustomerCreateReservation from './components/customer/CustomerCreateReservation';
 import CustomerViewReservation from './components/customer/CustomerViewReservation';
 import CustomerEditReservation from './components/customer/CustomerEditReservation';
+import CustomerReservationPayment from './components/customer/CustomerReservationPayment';
 
 import AdminDashboard from './components/admin/AdminDashboard';
 import AdminCreateStock from './components/admin/AdminCreateStock';
@@ -27,6 +28,7 @@ import AdminStaffList from './components/admin/AdminStaffList';
 import AdminEditStaff from './components/admin/AdminEditStaff';
 import AdminCreateReservationSlots from './components/admin/AdminCreateReservationSlots';
 import AdminReservationSlotsList from './components/admin/AdminReservationSlotsList';
+import AdminPaymentList from './components/admin/AdminPaymentList';
 
 import NotFound from './components/NotFound';
 
@@ -47,6 +49,7 @@ function App() {
 				<Route exact path='/customerCreateReservation' element={<CustomerCreateReservation />} />
 				<Route exact path='/customerViewReservation' element={<CustomerViewReservation />} />
 				<Route exact path='/customerEditReservation/:reservationId' element={<CustomerEditReservation />} />
+				<Route exact path='/reservationPayment/:reservationId' element={<CustomerReservationPayment />} />
 
 				<Route exact path='/dashboard' element={<AdminDashboard />} />
 				<Route exact path='/createNewStock' element={<AdminCreateStock />} />
@@ -63,6 +66,7 @@ function App() {
 				<Route exact path='/editStaff/:adminId' element={<AdminEditStaff />} />
 				<Route exact path='/createReservationSlots' element={<AdminCreateReservationSlots />} />
 				<Route exact path='/reservationSlotsList' element={<AdminReservationSlotsList />} />
+				<Route exact path='/reservationPayments' element={<AdminPaymentList />} />
 
 			</Routes>
 		</Router>

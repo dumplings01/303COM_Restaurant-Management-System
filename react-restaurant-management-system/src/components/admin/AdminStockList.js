@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { DataGrid } from '@mui/x-data-grid';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 import NavBar from '../NavBar';
 
@@ -101,6 +102,45 @@ function AdminStockList() {
         getStocks();
     }, []);
 
+    const getSelectedValue = (stock) => {
+        return stock.stockQuantity || stock.stockWeight;
+    };
+
+    const renderStocks = () => {
+        const lowStocks = stock.filter(stock => {
+            const selectedValue = getSelectedValue(stock);
+            return selectedValue < stock.lowStockAlertAt;
+        });
+ 
+        if (lowStocks.length === 0) {
+            return (
+                <Card className="w-75 mx-auto">
+                    <Card.Body>
+                        <Card.Text>
+                            <p>No low stock alerts</p>
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            )
+            
+        }
+
+        return lowStocks.map(stock => (
+            <div key={stock.id}>
+                <Card className="mb-2 w-75 mx-auto">
+                    <Card.Body>
+                        <Card.Text>
+                            <p>Stock Name: {stock.name}</p>
+                            <p>Stock Quantity/Weight: {getSelectedValue(stock)}</p>
+                            <p>Low Stock Alert At: {stock.lowStockAlertAt}</p>
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+                
+            </div>
+        ));
+    };
+
     return (
         <>
             <NavBar />
@@ -109,6 +149,10 @@ function AdminStockList() {
 					<a className="me-1 btn btn-secondary align-self-center" href="/dashboard" role="button">Back</a>
                     <h2 className="text-center align-self-center">Stock List</h2>
                     <a className="me-1 btn btn-success align-self-center" href="/createNewStock" role="button">Create New Stock Record</a>
+				</div>
+                <div className="d-flex row p-4 px-2 mb-3">
+                    <h2 className="text-center align-self-center">Low in Stock</h2>
+                    {renderStocks()}
 				</div>
                 <DataGrid
                     rows={stock.map((item, index) => ({

@@ -49,6 +49,8 @@ function CustomerEditReservation() {
     const [slots, setSlots] = useState([]);
 
     const [selectedSlotId, setSelectedSlotId] = useState("");
+    const [initialDate, setInitialDate] = useState("");
+    const [checkSame, setCheckSame] = useState(false);
 
     useEffect(() => {
 
@@ -62,6 +64,7 @@ function CustomerEditReservation() {
                 setNumberOfPeople(response.data.numberOfPeople);
                 setRemarks(response.data.remarks);
                 setStatus(response.data.status);
+                setInitialDate(response.data.reservationDate);
                 
             } catch (e) {
                 console.log(e);
@@ -69,6 +72,10 @@ function CustomerEditReservation() {
         };
         getReservation();
     },[reservationId]);
+
+    useEffect(() => {
+        setCheckSame(initialDate === reservationDate);
+      }, [initialDate, reservationDate]);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -86,6 +93,7 @@ function CustomerEditReservation() {
                         console.log(res);
                         if (res.status === 200) {
 
+                            if (checkSame===false){
                                 axios.put(`http://127.0.0.1:8080/slots/updateSlot?slotId=${selectedSlotId}`,
                                     {
                                         status: "Taken",
@@ -99,6 +107,9 @@ function CustomerEditReservation() {
                                     }).catch((error) => {
                                         console.log(error);
                                     })
+                                console.log("date changed"+reservationDate+" "+initialDate)
+                            }
+                                
 
                             alert("Reservation updated successfully!");
                             navigate("/customerViewReservation")
@@ -144,7 +155,7 @@ function CustomerEditReservation() {
 
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label className="pe-4">Date of Reservation: </Form.Label>
-                    <select onChange={handleSelect} className='mx-auto'>
+                    <select onChange={handleSelect} value={reservationDate} className='mx-auto'>
                         {slots.map((dateTime, index) => (
                             <option key={index} value={`${dateTime.date} ${dateTime.time} ${dateTime.slotId}`}>
                             {`${dateTime.date} ${dateTime.time}`}
@@ -167,6 +178,7 @@ function CustomerEditReservation() {
                 </Form.Group>
 
                 <div className="text-center p-4">
+                    <a className="me-1 btn btn-secondary" href="/customerViewReservation" role="button">Cancel</a>
                     <Button variant="primary" type="submit" className="me-1">Submit</Button>
                 </div>
             </Form>

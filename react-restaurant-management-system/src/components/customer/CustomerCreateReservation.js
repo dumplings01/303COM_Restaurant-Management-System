@@ -123,7 +123,7 @@ function CustomerCreateReservation() {
 
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label className="pe-4">Date of Reservation: </Form.Label>
-                    <select onChange={handleSelect} className='mx-auto'>
+                    <select onChange={handleSelect} required className='mx-auto'>
                         {slots.map((dateTime, index) => (
                             <option key={index} value={`${dateTime.date} ${dateTime.time} ${dateTime.slotId}`}>
                             {`${dateTime.date} ${dateTime.time}`}
@@ -144,6 +144,7 @@ function CustomerCreateReservation() {
                 </Form.Group>
 
                 <div className="text-center p-4">
+                    <a className="me-1 btn btn-secondary" href="/customerProfile" role="button">Cancel</a>
                     <Button variant="primary" type="submit" className="me-1">Submit</Button>
                 </div>
             </Form>

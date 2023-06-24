@@ -20,6 +20,7 @@ function AdminUpdateReservation() {
     const [customerRemarks, setCustomerRemarks] = useState("");
     const [createdAt, setCreatedAt] = useState("");
     const [status, setStatus] = useState("");
+    const [paymentId, setPaymentId] = useState("");
 
     useEffect(() => {
         var currentUserType = sessionStorage.getItem("currentUserType");
@@ -50,6 +51,7 @@ function AdminUpdateReservation() {
                 setCustomerRemarks(response.data.customerRemarks);
                 setCreatedAt(response.data.createdAt);
                 setStatus(response.data.status);
+                setPaymentId(response.data.paymentId);
                 
             } catch (e) {
                 console.log(e);
@@ -134,10 +136,16 @@ function AdminUpdateReservation() {
                 <Form.Group className="m-5 mt-4 mb-2">
                     <Form.Label>Status: </Form.Label>
                     <Form.Select value={status} onChange={(e) => {setStatus(e.target.value)}} required>
-                        <option value="Deposit Pending">Deposit Pending</option>
-                        <option value="Deposit Paid">Deposit Paid</option>
-                        <option value="Reservation Completed">Reservation Completed</option>
+                        <option value="Deposit pending">Deposit Pending</option>
+                        <option value="Deposit paid">Deposit Paid</option>
+                        <option value="Reservation rejected">Reservation Rejected</option>
+                        <option value="Reservation completed">Reservation Completed</option>
                     </Form.Select>
+                </Form.Group>
+
+                <Form.Group className="m-5 mt-4 mb-2">
+                    <Form.Label>Payment ID: </Form.Label>
+                    <Form.Control type="text" value={paymentId} disabled />
                 </Form.Group>
 
                 <div className="text-center p-4">

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import NavBar from '../NavBar';
@@ -7,27 +6,16 @@ import NavBar from '../NavBar';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from 'react-bootstrap/Button';
 
-function AdminReservationList() {
-
-    let navigate = useNavigate();
-    const [reservations, setReservations] = useState([]);
+function AdminPaymentList() {
+    const [payments, setPayments] = useState([]);
 
     const columns = [
-        { field: 'reservationId', headerName: 'Reservation ID', width: 300, maxWidth: 320, flex:1, editable: false },
-        { field: 'customerName', headerName: 'Customer Name', maxWidth: 320, flex:1, editable: false },
-        { field: 'customerContact', headerName: 'Contact Number', maxWidth: 240, flex:1, editable: false },
-        { field: 'reservationDate', headerName: 'Reservation Date', maxWidth: 100, flex:1, editable: false },
-        { field: 'numberOfPeople', headerName: 'Number of People', maxWidth: 100, flex:1, editable: false },
-        { field: 'customerRemarks', headerName: 'Customer Remarks', maxWidth: 150, flex:1, editable: false },
-        { field: 'createdAt', headerName: 'Created At', maxWidth: 280, flex:1, editable: false },
-        {
-            field: 'status',
-            headerName: 'Status',
-            maxWidth: 280,
-            flex:1,
-            editable: false
-        },
-        { field: 'paymentId', headerName: 'Payment ID', maxWidth: 280, flex:1, editable: false },
+        { field: 'paymentId', headerName: 'PaymentID', width: 300, maxWidth: 320, flex:1, editable: false },
+        { field: 'cardNumber', headerName: 'Card Number', maxWidth: 320, flex:1, editable: false },
+        { field: 'cardholderName', headerName: 'Cardholder Name', maxWidth: 240, flex:1, editable: false },
+        { field: 'expiryDate', headerName: 'Expiry Date', maxWidth: 100, flex:1, editable: false },
+        { field: 'securityCode', headerName: 'Security Code', maxWidth: 100, flex:1, editable: false },
+        { field: 'billingAddress', headerName: 'Billing Address', maxWidth: 150, flex:1, editable: false },
         {
             field: "actions",
             headerName: "Actions",
@@ -39,12 +27,6 @@ function AdminReservationList() {
                 return (
                     <>
                     <Button
-                        variant="primary"
-                        className="mx-1"
-                        onClick={(event) => {
-                            handleEdit(event, cellValues);
-                        }}>Edit</Button>
-                    <Button
                         variant="danger"
                         onClick={(event) => {
                             handleDelete(event, cellValues);
@@ -55,28 +37,23 @@ function AdminReservationList() {
         }
     ];
 
-    function handleEdit(e, value){
-        const reservationId = value.row.reservationId;
-        navigate(`/updateReservation/${reservationId}`);
-    }
-
     function handleDelete(e, value) {
-        const name = value.row.customerName;
-        const reservationId = value.row.reservationId;
-		var answer = window.confirm("Delete/Cancel reservation for customer "+name+"?\n\n"+
-                    "ONLY DELETE RESERVATION WHEN CANCELLED OR COMPLETED!");
+        const name = value.row.cardholderName;
+        const paymentId = value.row.paymentId;
+		var answer = window.confirm("Delete payment details for cardholder name: "+name+"?\n"+
+                    "ACTIONS CANNOT BE UNDONE!");
 		if (answer) {
-			axios.delete(`http://127.0.0.1:8080/reservation/cancelReservation?reservationId=${reservationId}`)
+			axios.delete(`http://127.0.0.1:8080/payment/deletePayment?paymentId=${paymentId}`)
 						.then((res) => {
 							console.log(res);
 							if (res.status === 200) {
-								alert("Reservation record deleted successfully!");
+								alert("Payment details deleted successfully!");
                                 window.location.reload(false);
 								return res;
 							}
 						}).catch((error) => {
 							console.log(error);
-							alert("Failed to delete reservation record!");
+							alert("Failed to delete payment details!");
 							window.location.reload(false);
 						})
 					};
@@ -98,16 +75,16 @@ function AdminReservationList() {
 			alert("No access to manage reservations!");
 		}
 
-        const getAllReservation = async () => {
+        const getAllPayments = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8080/reservation/getAllReservation`);
+                const response = await axios.get(`http://127.0.0.1:8080/payment/getAllPayments`);
                 // console.log(response);
-                setReservations(response.data);
+                setPayments(response.data);
             } catch (e) {
                 console.log(e);
             }
         };
-        getAllReservation();
+        getAllPayments();
     }, []);
 
     return (
@@ -117,9 +94,9 @@ function AdminReservationList() {
             <div className="d-flex justify-content-between p-4 px-2">
                 <a className="me-1 btn btn-secondary" href="/dashboard" role="button">Back</a>
             </div>
-            <h2 className="text-center align-self-center mb-3">Reservations List</h2>
+            <h2 className="text-center align-self-center mb-3">Reservation Deposit Payments List</h2>
             <DataGrid
-                rows={reservations.map((item, index) => ({
+                rows={payments.map((item, index) => ({
                     id: index + 1,
                     ...item
                 }))}
@@ -134,6 +111,7 @@ function AdminReservationList() {
         </div>
         </>
     );
+
 }
 
-export default AdminReservationList;
+export default AdminPaymentList;

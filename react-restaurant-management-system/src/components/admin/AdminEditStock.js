@@ -18,6 +18,7 @@ function AdminEditStock() {
     const [stockQuantity, setStockQuantity] = useState("");
     const [stockWeight, setStockWeight] = useState("");
     const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
+    const [lowStockAlertAt, setLowStockAlertAt] = useState("");
 
 	const [isChecked, setIsChecked] = useState(true);
 
@@ -47,6 +48,7 @@ function AdminEditStock() {
                 setStockQuantity(response.data.stockQuantity);
                 setStockWeight(response.data.stockWeight);
                 setUnitOfMeasurement(response.data.unitOfMeasurement);
+                setLowStockAlertAt(response.data.lowStockAlertAt);
                 if (response.data.stockQuantity===null || response.data.stockQuantity==="") {
                     setIsChecked(false);
                 }
@@ -78,7 +80,8 @@ function AdminEditStock() {
                 stockType,
                 stockQuantity,
                 stockWeight,
-                unitOfMeasurement
+                unitOfMeasurement,
+                lowStockAlertAt
             })
             .then((res) => {
                 console.log(res);
@@ -152,6 +155,12 @@ function AdminEditStock() {
                         </>
                     )
                 }
+                
+                <Form.Group className="m-5 mt-4 mb-2">
+                    <Form.Label>Send Low Stock Alert at: </Form.Label>
+                    <Form.Control type="number" min="1" defaultname="lowStockAlertAt" value={lowStockAlertAt} required
+                    onChange={(e) => {setLowStockAlertAt(e.target.value)}} placeholder="Enter a value for stock alert" />
+                </Form.Group>
 
                 <div className="text-center p-4">
                     <a className="me-1 btn btn-secondary" href="/readStockList" role="button">Cancel</a>

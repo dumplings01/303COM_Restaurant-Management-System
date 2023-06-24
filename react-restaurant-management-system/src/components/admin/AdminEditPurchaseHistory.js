@@ -20,9 +20,10 @@ function AdminEditPurchaseHistory() {
     const [stockQuantity, setStockQuantity] = useState("");
     const [stockWeight, setStockWeight] = useState("");
     const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
-    const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("");
-    const [timeDelivered, setTimeDelivered] = useState("");
+    const [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState("");
+    const [dateDelivered, setDateDelivered] = useState("");
     const [stockCondition, setStockCondition] = useState("Poor");
+    const [deliveryFeedback, setDeliveryFeedback] = useState("");
 	const [costOfStock, setCostOfStock] = useState("");
 	const [status, setStatus] = useState("");
 
@@ -67,7 +68,7 @@ function AdminEditPurchaseHistory() {
                 setStockQuantity(response.data.stockQuantity);
                 setStockWeight(response.data.stockWeight);
                 setUnitOfMeasurement(response.data.unitOfMeasurement);
-                setEstimatedDeliveryTime(response.data.estimatedDeliveryTime);
+                setEstimatedDeliveryDate(response.data.estimatedDeliveryDate);
                 setCostOfStock(response.data.costOfStock);
                 setStatus(response.data.status);
                 if (response.data.stockQuantity===null || response.data.stockQuantity==="") {
@@ -92,9 +93,10 @@ function AdminEditPurchaseHistory() {
             stockQuantity,
             stockWeight,
             unitOfMeasurement,
-            estimatedDeliveryTime,
-            timeDelivered,
+            estimatedDeliveryDate,
+            dateDelivered,
             stockCondition,
+            deliveryFeedback,
             costOfStock,
             status
         })
@@ -119,12 +121,12 @@ function AdminEditPurchaseHistory() {
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="m-5 mt-4 mb-2">
                         <Form.Label>Supplier Name: </Form.Label>
-                        <Form.Control type="text" value={supplierName} onChange={(e) => {setSupplierName(e.target.value)}} placeholder="Enter supplier name" required />
+                        <Form.Control type="text" value={supplierName} disabled required />
                     </Form.Group>
 
                     <Form.Group className="m-5 mt-4 mb-2">
                         <Form.Label>Stock Name: </Form.Label>
-                        <Form.Control type="text" value={stockName} onChange={(e) => {setStockName(e.target.value)}} placeholder="Enter stock name" required />
+                        <Form.Control type="text" value={stockName} disabled required />
                     </Form.Group>
 
                     <Form.Group className="m-5 mt-4 mb-2">
@@ -146,7 +148,7 @@ function AdminEditPurchaseHistory() {
                     <Form.Group className="d-flex row m-5 mt-4 mb-2">
                         <Form.Label>Method of Measurement: </Form.Label>
                         <BootstrapSwitchButton checked={isChecked} onChange={handleToggle} onlabel='Quantity'
-                        offlabel='Weight' />
+                        offlabel='Weight' disabled />
                     </Form.Group>
                     
                     {
@@ -154,20 +156,19 @@ function AdminEditPurchaseHistory() {
                             <Form.Group className="m-5 mt-4 mb-2">
                                 <Form.Label>Stock Quantity: </Form.Label>
                                 <Form.Control type="number" min="1" defaultname="stockQuantity" value={stockQuantity} required
-                                onChange={(e) => {setStockQuantity(e.target.value)}} placeholder="Enter stock quantity" />
+                                 disabled />
                             </Form.Group>
                         ) : (
                             <>
                             <Form.Group className="m-5 mt-4 mb-2">
                                 <Form.Label>Stock Weight: </Form.Label>
                                 <Form.Control type="number" min="0.01" name="stockWeight" step="0.01" value={stockWeight} required
-                                onChange={(e) => {setStockWeight(e.target.value)}} placeholder="Enter stock weight per unit/total" />
+                                 disabled />
                             </Form.Group>
 
                             <Form.Group className="m-5 mt-4 mb-2">
                                 <Form.Label>Unit of Measurement: </Form.Label>
-                                <Form.Control type="text" name="unitOfMeasurement" value={unitOfMeasurement} required 
-                                onChange={(e) => {setUnitOfMeasurement(e.target.value)}} placeholder="Enter unit of measurement" />
+                                <Form.Control type="text" name="unitOfMeasurement" value={unitOfMeasurement} required disabled />
                             </Form.Group>
                             </>
                         )
@@ -175,14 +176,14 @@ function AdminEditPurchaseHistory() {
 
                     <Form.Group className="m-5 mt-4 mb-2">
                         <Form.Label>Estimated Delivery Date: </Form.Label>
-                        <DateTimePicker className="border p-3 w-100 rounded-2" required name="estimatedDeliveryTime" format="dd-MM-yyyy"
-                        minDate={new Date()} onChange={setEstimatedDeliveryTime} value={estimatedDeliveryTime} />
+                        <DateTimePicker className="border p-3 w-100 rounded-2" disabled name="estimatedDeliveryDate" format="dd-MM-yyyy"
+                         value={estimatedDeliveryDate} />
                     </Form.Group>
                 
                     <Form.Group className="m-5 mt-4 mb-2">
-                        <Form.Label>Time Delivered: </Form.Label>
-                        <DateTimePicker className="border p-3 w-100 rounded-2" required name="timeDelivered" format="dd-MM-yyyy"
-                        minDate={new Date()} onChange={setTimeDelivered} value={timeDelivered} />
+                        <Form.Label>Date Delivered: </Form.Label>
+                        <DateTimePicker className="border p-3 w-100 rounded-2" required name="dateDelivered" format="dd-MM-yyyy"
+                         onChange={setDateDelivered} value={dateDelivered} />
                     </Form.Group>
 
                     <Form.Group className="m-5 mt-4 mb-2">
@@ -195,7 +196,13 @@ function AdminEditPurchaseHistory() {
                     </Form.Group>
 
                     <Form.Group className="m-5 mt-4 mb-2">
-                        <Form.Label>Cost of Stock (Total): </Form.Label>
+                        <Form.Label>Delivery Feedback: </Form.Label>
+                        <Form.Control type="text" name="deliveryFeedback" value={deliveryFeedback} 
+                        onChange={(e) => {setDeliveryFeedback(e.target.value)}} placeholder="Enter delivery feedback" />
+                    </Form.Group>
+
+                    <Form.Group className="m-5 mt-4 mb-2">
+                        <Form.Label>Cost of Stock (Total) (RM): </Form.Label>
                         <Form.Control type="number" min="0.01" required name="costOfStock" step="0.01" value={costOfStock}
                         onChange={(e) => {setCostOfStock(e.target.value)}} placeholder="Enter cost of stock" />
                     </Form.Group>

@@ -16,7 +16,7 @@ function AdminCreatePurchaseHistory() {
     const [stockQuantity, setStockQuantity] = useState("");
     const [stockWeight, setStockWeight] = useState("");
     const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
-    const [estimatedDeliveryTime, setEstimatedDeliveryTime] = useState("");
+    const [estimatedDeliveryDate, setEstimatedDeliveryDate] = useState("");
 	const [costOfStock, setCostOfStock] = useState("");
 
 	const [isChecked, setIsChecked] = useState(true);
@@ -55,7 +55,7 @@ function AdminCreatePurchaseHistory() {
 				stockQuantity,
 				stockWeight,
 				unitOfMeasurement,
-				estimatedDeliveryTime,
+				estimatedDeliveryDate,
 				costOfStock
 			},
 			{ headers: { "x-key": '123', } })
@@ -136,12 +136,12 @@ function AdminCreatePurchaseHistory() {
 
 					<Form.Group className="m-5 mt-4 mb-2">
 						<Form.Label>Estimated Delivery Date: </Form.Label>
-						<DateTimePicker className="border p-3 w-100 rounded-2" required name="estimatedDeliveryTime" format="dd-MM-yyyy"
-						minDate={new Date()} onChange={setEstimatedDeliveryTime} value={estimatedDeliveryTime} />
+						<DateTimePicker className="border p-3 w-100 rounded-2" required name="estimatedDeliveryDate" format="dd-MM-yyyy"
+						minDate={new Date()} onChange={setEstimatedDeliveryDate} value={estimatedDeliveryDate} />
 					</Form.Group>
 
 					<Form.Group className="m-5 mt-4 mb-2">
-						<Form.Label>Cost of Stock (Total): </Form.Label>
+						<Form.Label>Cost of Stock (Total) (RM): </Form.Label>
 						<Form.Control type="number" min="0.01" required name="costOfStock" step="0.01"
 						onChange={(e) => {setCostOfStock(e.target.value)}} placeholder="Enter cost of stock" />
 					</Form.Group>

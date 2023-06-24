@@ -14,6 +14,7 @@ function AdminCreateStock() {
     const [stockQuantity, setStockQuantity] = useState("");
     const [stockWeight, setStockWeight] = useState("");
     const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
+    const [lowStockAlertAt, setLowStockAlertAt] = useState("");
     
 	const [isChecked, setIsChecked] = useState(true);
 
@@ -53,7 +54,8 @@ function AdminCreateStock() {
                     stockType,
                     stockQuantity,
                     stockWeight,
-                    unitOfMeasurement
+                    unitOfMeasurement,
+                    lowStockAlertAt
                 },
                 { headers: { "x-key": '123', } })
                 .then((res) => {
@@ -127,6 +129,12 @@ function AdminCreateStock() {
                         </>
                     )
                 }
+
+                <Form.Group className="m-5 mt-4 mb-2">
+                    <Form.Label>Send Low Stock Alert at: </Form.Label>
+                    <Form.Control type="number" min="1" defaultname="lowStockAlertAt" required
+                    onChange={(e) => {setLowStockAlertAt(e.target.value)}} placeholder="Enter a value for stock alert" />
+                </Form.Group>
 
                 <div className="text-center p-4">
 						<a className="me-1 btn btn-secondary" href="/readStockList" role="button">Cancel</a>
