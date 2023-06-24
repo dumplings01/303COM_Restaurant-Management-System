@@ -13,17 +13,17 @@ import java.util.UUID;
 public class Admin {
 
     @Id
-    @Column(name="adminId", length=256, nullable = false, unique=true)
+    @Column(name="adminId", nullable = false, unique=true)
     private UUID adminId;
 
     @Column(name="name", length=50, nullable=false)
     private String name;
 
     @Email
-    @Column(name="email", length=256, nullable=false)
+    @Column(name="email", length=50, nullable=false)
     private String email;
 
-    @Column(name="password", length=256, nullable=false)
+    @Column(name="password", length=100, nullable=false)
     private String password;
 
     @ElementCollection

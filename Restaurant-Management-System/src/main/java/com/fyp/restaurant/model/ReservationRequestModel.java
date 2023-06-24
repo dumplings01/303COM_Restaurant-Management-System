@@ -33,6 +33,9 @@ public class ReservationRequestModel {
 
     private String status;
 
+    @Size(max=256)
+    private UUID paymentId;
+
     public UUID getCustomerId() {
         return customerId;
     }
@@ -87,5 +90,13 @@ public class ReservationRequestModel {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public UUID getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(UUID paymentId) {
+        this.paymentId = paymentId;
     }
 }

@@ -75,6 +75,7 @@ public class StockController {
         updateStock.setStockQuantity(stockDetails.getStockQuantity());
         updateStock.setStockWeight(stockDetails.getStockWeight());
         updateStock.setUnitOfMeasurement(stockDetails.getUnitOfMeasurement());
+        updateStock.setLowStockAlertAt(stockDetails.getLowStockAlertAt());
         updateStock.setUpdatedAt(new Date());
 
         stockRepository.save(updateStock);

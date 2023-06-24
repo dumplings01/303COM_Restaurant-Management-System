@@ -14,10 +14,10 @@ import java.util.UUID;
 public class Reservation {
 
     @Id
-    @Column(name="reservationId", length=256, nullable = false, unique=true)
+    @Column(name="reservationId", nullable = false, unique=true)
     private UUID reservationId;
 
-    @Column(name="customerId", length=256, nullable=false)
+    @Column(name="customerId", nullable=false)
     private UUID customerId;
 
     @Column(name="customerName", length=50, nullable=false)
@@ -32,14 +32,17 @@ public class Reservation {
     @Column(name="numberOfPeople", length=20, nullable=false)
     private Integer numberOfPeople;
 
-    @Column(name="customerRemarks", length=256, nullable=true)
+    @Column(name="customerRemarks", nullable=true)
     private String customerRemarks;
 
     @Column(name="createdAt", nullable = true)
     private Date createdAt;
 
-    @Column(name="status",nullable = true)
+    @Column(name="status", length=20,nullable = true)
     private String status;
+
+    @Column(name="paymentId", nullable = true)
+    private UUID paymentId;
 
     public Reservation(){
 
@@ -47,7 +50,7 @@ public class Reservation {
 
     public Reservation(UUID reservationId, UUID customerId, String customerName,
                        String customerContact, String reservationDate, Integer numberOfPeople,
-                       String customerRemarks, Date createdAt, String status){
+                       String customerRemarks, Date createdAt, String status, UUID paymentId){
         this.reservationId = reservationId;
         this.customerId = customerId;
         this.customerName = customerName;
@@ -57,6 +60,7 @@ public class Reservation {
         this.customerRemarks = customerRemarks;
         this.createdAt = createdAt;
         this.status = status;
+        this.paymentId = paymentId;
     }
 
     @PrePersist
@@ -136,5 +140,13 @@ public class Reservation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public UUID getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(UUID paymentId) {
+        this.paymentId = paymentId;
     }
 }

@@ -12,23 +12,23 @@ import java.util.UUID;
 public class Customer {
 
     @Id
-    @Column(name="customerId", length=256, nullable = false, unique=true)
+    @Column(name="customerId", nullable = false, unique=true)
     private UUID customerId;
 
     @Column(name="name", length=50, nullable=false)
     private String name;
 
     @Email
-    @Column(name="email", length=256, nullable=false)
+    @Column(name="email", length=50, nullable=false)
     private String email;
 
-    @Column(name="password", length=256, nullable=false)
+    @Column(name="password", length=100, nullable=false)
     private String password;
 
     @Column(name="contactNumber", length=11, nullable=false)
     private String contactNumber;
 
-    @Column(name="loyaltyPoints", length=256)
+    @Column(name="loyaltyPoints")
     private Integer loyaltyPoints;
 
     public Customer(){

@@ -12,16 +12,16 @@ import java.util.UUID;
 public class Supplier {
 
     @Id
-    @Column(name="supplierId", length=256, nullable = false, unique = true)
+    @Column(name="supplierId", nullable = false, unique = true)
     private UUID supplierId;
 
     @Column(name="supplierName", length=50, nullable = false)
     private String supplierName;
 
-    @Column(name="stockName", length=256, nullable = false)
+    @Column(name="stockName", length = 50, nullable = false)
     private String stockName;
 
-    @Column(name = "stockType", nullable = false)
+    @Column(name = "stockType", length = 50, nullable = false)
     private String stockType;
 
     @Column(name="stockQuantity", nullable = true)
@@ -30,25 +30,25 @@ public class Supplier {
     @Column(name = "stockWeight", nullable = true)
     private Double stockWeight;
 
-    @Column(name = "unitOfMeasurement", nullable = true)
+    @Column(name = "unitOfMeasurement", length = 50, nullable = true)
     private String unitOfMeasurement;
 
-    @Column(name="estimatedDeliveryTime", nullable = false)
-    private Date estimatedDeliveryTime;
+    @Column(name="estimatedDeliveryDate", nullable = false)
+    private Date estimatedDeliveryDate;
 
-    @Column(name="timeDelivered", nullable = true)
-    private Date timeDelivered;
+    @Column(name="dateDelivered", nullable = true)
+    private Date dateDelivered;
 
     @Column(name="stockCondition", length=50, nullable = true)
     private String stockCondition;
 
-    @Column(name="deliveryFeedback", length=256, nullable = true)
+    @Column(name="deliveryFeedback", nullable = true)
     private String deliveryFeedback;
 
     @Column(name="costOfStock", nullable = false)
     private Double costOfStock;
 
-    @Column(name="status", nullable = false)
+    @Column(name="status", length = 20, nullable = false)
     private String status;
 
     @Column(name="createdAt", nullable = false)
@@ -63,7 +63,7 @@ public class Supplier {
 
     public Supplier(UUID supplierId, String supplierName, String stockName, String stockType,
                     Integer stockQuantity, Double stockWeight, String unitOfMeasurement,
-                    Date estimatedDeliveryTime, Date timeDelivered, String stockCondition,
+                    Date estimatedDeliveryDate, Date dateDelivered, String stockCondition,
                     String deliveryFeedback, Double costOfStock, String status, Date createdAt,
                     Date updatedAt){
         this.supplierId = supplierId;
@@ -73,8 +73,8 @@ public class Supplier {
         this.stockQuantity = stockQuantity;
         this.stockWeight = stockWeight;
         this.unitOfMeasurement = unitOfMeasurement;
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
-        this.timeDelivered = timeDelivered;
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
+        this.dateDelivered = dateDelivered;
         this.stockCondition = stockCondition;
         this.deliveryFeedback = deliveryFeedback;
         this.costOfStock = costOfStock;
@@ -146,20 +146,20 @@ public class Supplier {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
-    public Date getEstimatedDeliveryTime() {
-        return estimatedDeliveryTime;
+    public Date getEstimatedDeliveryDate() {
+        return estimatedDeliveryDate;
     }
 
-    public void setEstimatedDeliveryTime(Date estimatedDeliveryTime) {
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
+    public void setEstimatedDeliveryDate(Date estimatedDeliveryDate) {
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
     }
 
-    public Date getTimeDelivered() {
-        return timeDelivered;
+    public Date getDateDelivered() {
+        return dateDelivered;
     }
 
-    public void setTimeDelivered(Date timeDelivered) {
-        this.timeDelivered = timeDelivered;
+    public void setDateDelivered(Date dateDelivered) {
+        this.dateDelivered = dateDelivered;
     }
 
     public String getStockCondition() {

@@ -65,8 +65,8 @@ public class SupplierController {
         updateSupplier.setStockQuantity(supplierDetails.getStockQuantity());
         updateSupplier.setStockWeight(supplierDetails.getStockWeight());
         updateSupplier.setUnitOfMeasurement(supplierDetails.getUnitOfMeasurement());
-        updateSupplier.setEstimatedDeliveryTime(supplierDetails.getEstimatedDeliveryTime());
-        updateSupplier.setTimeDelivered(supplierDetails.getTimeDelivered());
+        updateSupplier.setEstimatedDeliveryDate(supplierDetails.getEstimatedDeliveryDate());
+        updateSupplier.setDateDelivered(supplierDetails.getDateDelivered());
         updateSupplier.setStockCondition(supplierDetails.getStockCondition());
         updateSupplier.setDeliveryFeedback(supplierDetails.getDeliveryFeedback());
         updateSupplier.setCostOfStock(supplierDetails.getCostOfStock());

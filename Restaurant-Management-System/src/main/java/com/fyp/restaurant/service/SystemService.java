@@ -60,6 +60,7 @@ public class SystemService implements SystemServiceImpl {
         value.setStockQuantity(stockDetails.getStockQuantity());
         value.setStockWeight(stockDetails.getStockWeight());
         value.setUnitOfMeasurement(stockDetails.getUnitOfMeasurement());
+        value.setLowStockAlertAt(stockDetails.getLowStockAlertAt());
         value.setUpdatedAt(stockDetails.getUpdatedAt());
 
         return value;
@@ -74,10 +75,7 @@ public class SystemService implements SystemServiceImpl {
         value.setStockQuantity(supplierDetails.getStockQuantity());
         value.setStockWeight(supplierDetails.getStockWeight());
         value.setUnitOfMeasurement(supplierDetails.getUnitOfMeasurement());
-        value.setEstimatedDeliveryTime(supplierDetails.getEstimatedDeliveryTime());
-//        value.setTimeDelivered(supplierDetails.getTimeDelivered());
-//        value.setStockCondition(supplierDetails.getStockCondition());
-//        value.setDeliveryFeedback(supplierDetails.getDeliveryFeedback());
+        value.setEstimatedDeliveryDate(supplierDetails.getEstimatedDeliveryDate());
         value.setCostOfStock(supplierDetails.getCostOfStock());
 
         return value;
@@ -95,6 +93,18 @@ public class SystemService implements SystemServiceImpl {
 //                reservationSlotsRepository.save(value);
 //            }
         }
+    }
+
+    public Payment registerPaymentDetails (PaymentRequestModel payment){
+        Payment value = new Payment();
+
+        value.setCardNumber(payment.getCardNumber());
+        value.setCardholderName(payment.getCardholderName());
+        value.setExpiryDate(payment.getExpiryDate());
+        value.setSecurityCode(payment.getSecurityCode());
+        value.setBillingAddress(payment.getBillingAddress());
+
+        return value;
     }
 
 }

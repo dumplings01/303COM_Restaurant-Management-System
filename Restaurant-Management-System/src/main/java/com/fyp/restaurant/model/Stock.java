@@ -14,13 +14,13 @@ import java.util.UUID;
 public class Stock {
 
         @Id
-        @Column(name = "stockId", length = 256, nullable = false, unique = true)
+        @Column(name = "stockId", nullable = false, unique = true)
         private UUID stockId;
 
-        @Column(name = "name", length = 256, nullable = false)
+        @Column(name = "name", length = 50, nullable = false)
         private String name;
 
-        @Column(name = "stockType", nullable = false)
+        @Column(name = "stockType", length = 50, nullable = false)
         private String stockType;
 
         @Column(name = "stockQuantity", nullable = true)
@@ -29,8 +29,11 @@ public class Stock {
         @Column(name = "stockWeight", nullable = true)
         private Double stockWeight;
 
-        @Column(name = "unitOfMeasurement", nullable = true)
+        @Column(name = "unitOfMeasurement", length = 50, nullable = true)
         private String unitOfMeasurement;
+
+        @Column(name = "lowStockAlertAt", nullable = false)
+        private Integer lowStockAlertAt;
 
         @Column(name = "updatedAt", nullable = false)
         private Date updatedAt;
@@ -41,13 +44,14 @@ public class Stock {
 
         public Stock(UUID stockId, String name, String stockType,
                      Integer stockQuantity, Double stockWeight,
-                     String unitOfMeasurement, Date updatedAt) {
+                     String unitOfMeasurement, Integer lowStockAlertAt, Date updatedAt) {
                 this.stockId = stockId;
                 this.name = name;
                 this.stockType = stockType;
                 this.stockQuantity = stockQuantity;
                 this.stockWeight = stockWeight;
                 this.unitOfMeasurement = unitOfMeasurement;
+                this.lowStockAlertAt = lowStockAlertAt;
                 this.updatedAt = updatedAt;
         }
 
@@ -103,6 +107,14 @@ public class Stock {
 
         public void setUnitOfMeasurement(String unitOfMeasurement) {
                 this.unitOfMeasurement = unitOfMeasurement;
+        }
+
+        public Integer getLowStockAlertAt() {
+                return lowStockAlertAt;
+        }
+
+        public void setLowStockAlertAt(Integer lowStockAlertAt) {
+                this.lowStockAlertAt = lowStockAlertAt;
         }
 
         public Date getUpdatedAt() {

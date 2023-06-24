@@ -24,11 +24,10 @@ public class SupplierRequestModel {
     private String unitOfMeasurement;
 
     @NotNull
-    private Date estimatedDeliveryTime;
+    private Date estimatedDeliveryDate;
 
-    private Date timeDelivered;
+    private Date dateDelivered;
 
-    @Size(max=50, message = "Description must be lesser than 50 characters")
     private String stockCondition;
 
     @Size(max=256)
@@ -87,20 +86,20 @@ public class SupplierRequestModel {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 
-    public Date getEstimatedDeliveryTime() {
-        return estimatedDeliveryTime;
+    public Date getEstimatedDeliveryDate() {
+        return estimatedDeliveryDate;
     }
 
-    public void setEstimatedDeliveryTime(Date estimatedDeliveryTime) {
-        this.estimatedDeliveryTime = estimatedDeliveryTime;
+    public void setEstimatedDeliveryDate(Date estimatedDeliveryDate) {
+        this.estimatedDeliveryDate = estimatedDeliveryDate;
     }
 
-    public Date getTimeDelivered() {
-        return timeDelivered;
+    public Date getDateDelivered() {
+        return dateDelivered;
     }
 
-    public void setTimeDelivered(Date timeDelivered) {
-        this.timeDelivered = timeDelivered;
+    public void setDateDelivered(Date dateDelivered) {
+        this.dateDelivered = dateDelivered;
     }
 
     public String getStockCondition() {

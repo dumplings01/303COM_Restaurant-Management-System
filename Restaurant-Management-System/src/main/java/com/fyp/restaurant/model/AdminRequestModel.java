@@ -13,13 +13,12 @@ public class AdminRequestModel {
     private String name;
 
     @NotNull
-    @Size(max=256, message = "Email must be lesser than 50 characters")
+    @Size(max=50, message = "Email must be lesser than 50 characters")
     @Pattern(regexp="[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,4}",
             message = "Email format invalid!")
     private String email;
 
     @NotNull
-    @Size(max=256, message = "Password must be lesser than 50 characters")
     private String password;
 
     @ElementCollection

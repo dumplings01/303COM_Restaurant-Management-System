@@ -2,7 +2,9 @@ package com.fyp.restaurant.controller;
 
 import com.fyp.restaurant.model.Reservation;
 import com.fyp.restaurant.model.ReservationRequestModel;
+import com.fyp.restaurant.model.ReservationSlots;
 import com.fyp.restaurant.repository.ReservationRepository;
+import com.fyp.restaurant.repository.ReservationSlotsRepository;
 import com.fyp.restaurant.service.SystemService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +24,11 @@ public class ReservationController {
 
     private final ReservationRepository reservationRepository;
 
-    public ReservationController(ReservationRepository reservationRepository) {
+    private final ReservationSlotsRepository reservationSlotsRepository;
+
+    public ReservationController(ReservationRepository reservationRepository, ReservationSlotsRepository reservationSlotsRepository) {
         this.reservationRepository = reservationRepository;
+        this.reservationSlotsRepository = reservationSlotsRepository;
     }
 
     // get all reservation
@@ -70,6 +75,12 @@ public class ReservationController {
                                                @RequestBody ReservationRequestModel reservationDetails)
     {
         Reservation updateReservation = reservationRepository.findByReservationId(reservationId);
+        ReservationSlots updateSlot = reservationSlotsRepository.findByReservationId(reservationId);
+
+        if (!(reservationDetails.getReservationDate().equals(updateReservation.getReservationDate()))){
+            updateSlot.setStatus("Available");
+            updateSlot.setReservationId(null);
+        }
 
         updateReservation.setCustomerId(reservationDetails.getCustomerId());
         updateReservation.setCustomerName(reservationDetails.getCustomerName());
@@ -84,11 +95,30 @@ public class ReservationController {
         return new ResponseEntity<Reservation>(updateReservation, HttpStatus.OK);
     }
 
+    // update status
+    @PutMapping("/updateReservationPayment")
+    public ResponseEntity<?> updateReservationPayment(@Valid @RequestParam(value="reservationId") UUID reservationId,
+                                                     @RequestBody ReservationRequestModel reservationDetails)
+    {
+        Reservation updateReservation = reservationRepository.findByReservationId(reservationId);
+
+        updateReservation.setStatus(reservationDetails.getStatus());
+
+        reservationRepository.save(updateReservation);
+
+        return new ResponseEntity<Reservation>(updateReservation, HttpStatus.OK);
+    }
+
 
     // delete reservation
     @DeleteMapping("/cancelReservation")
     public ResponseEntity<?> deleteReservation(@RequestParam(value="reservationId") UUID reservationId)
     {
+        ReservationSlots updateSlot = reservationSlotsRepository.findByReservationId(reservationId);
+
+        updateSlot.setStatus("Available");
+        updateSlot.setReservationId(null);
+
         reservationRepository.deleteById(reservationId);
         return new ResponseEntity<>("Reservation deleted successfully!", HttpStatus.OK);
     }

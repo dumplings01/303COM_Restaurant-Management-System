@@ -12,7 +12,7 @@ import java.util.UUID;
 public class ReservationSlots {
 
         @Id
-        @Column(name="slotId", length=256, nullable = false, unique=true)
+        @Column(name="slotId", nullable = false, unique=true)
         private UUID slotId;
 
         @Column(name="date", nullable=false)
@@ -21,7 +21,7 @@ public class ReservationSlots {
         @Column(name="time", nullable=false)
         private String time;
 
-        @Column(name="status", nullable=false)
+        @Column(name="status", length = 20, nullable=false)
         private String status;
 
         @Column(name="reservationId", nullable=true)

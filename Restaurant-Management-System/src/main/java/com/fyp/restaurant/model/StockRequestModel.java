@@ -19,6 +19,9 @@ public class StockRequestModel {
 
     private String unitOfMeasurement;
 
+    @NotNull
+    private Integer lowStockAlertAt;
+
     private Date updatedAt;
 
     public String getName() {
@@ -59,6 +62,14 @@ public class StockRequestModel {
 
     public void setUnitOfMeasurement(String unitOfMeasurement) {
         this.unitOfMeasurement = unitOfMeasurement;
+    }
+
+    public Integer getLowStockAlertAt() {
+        return lowStockAlertAt;
+    }
+
+    public void setLowStockAlertAt(Integer lowStockAlertAt) {
+        this.lowStockAlertAt = lowStockAlertAt;
     }
 
     public Date getUpdatedAt() {
