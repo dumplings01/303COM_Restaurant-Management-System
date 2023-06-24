@@ -22,7 +22,7 @@ public class ReservationRequestModel {
     private String customerContact;
 
     @NotNull
-    private Date reservationDate;
+    private String reservationDate;
 
     @NotNull
     @Size(max = 20, message = "Number of people must be lesser than 20")
@@ -57,11 +57,11 @@ public class ReservationRequestModel {
         this.customerContact = customerContact;
     }
 
-    public Date getReservationDate() {
+    public String getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
+    public void setReservationDate(String reservationDate) {
         this.reservationDate = reservationDate;
     }
 

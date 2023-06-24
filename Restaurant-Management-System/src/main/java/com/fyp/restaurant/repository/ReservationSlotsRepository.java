@@ -10,5 +10,11 @@ import java.util.UUID;
 @Repository
 public interface ReservationSlotsRepository extends JpaRepository<ReservationSlots, UUID> {
 
+    ReservationSlots findBySlotId(UUID slotId);
+
+    ReservationSlots findByReservationId(UUID reservationId);
+
     boolean existsByDate(Date date);
+
+    boolean existsByTime(String time);
 }

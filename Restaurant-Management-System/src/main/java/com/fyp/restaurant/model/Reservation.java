@@ -27,7 +27,7 @@ public class Reservation {
     private String customerContact;
 
     @Column(name="reservationDate", nullable=false)
-    private Date reservationDate;
+    private String reservationDate;
 
     @Column(name="numberOfPeople", length=20, nullable=false)
     private Integer numberOfPeople;
@@ -46,7 +46,7 @@ public class Reservation {
     }
 
     public Reservation(UUID reservationId, UUID customerId, String customerName,
-                       String customerContact, Date reservationDate, Integer numberOfPeople,
+                       String customerContact, String reservationDate, Integer numberOfPeople,
                        String customerRemarks, Date createdAt, String status){
         this.reservationId = reservationId;
         this.customerId = customerId;
@@ -98,11 +98,11 @@ public class Reservation {
         this.customerContact = customerContact;
     }
 
-    public Date getReservationDate() {
+    public String getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(Date reservationDate) {
+    public void setReservationDate(String reservationDate) {
         this.reservationDate = reservationDate;
     }
 
