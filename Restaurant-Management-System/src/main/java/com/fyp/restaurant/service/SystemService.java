@@ -88,10 +88,6 @@ public class SystemService implements SystemServiceImpl {
             value.setTime(slot.getTime());
 
             reservationSlotsRepository.save(value);
-
-//            if (!(reservationSlotsRepository.existsByDate(slot.getDate())&&(reservationSlotsRepository.existsByTime(slot.getTime())))){
-//                reservationSlotsRepository.save(value);
-//            }
         }
     }
 
