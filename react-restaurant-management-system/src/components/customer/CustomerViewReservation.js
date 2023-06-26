@@ -56,7 +56,10 @@ function CustomerViewReservation() {
                     <p className="text-center fs-2">No reservations yet!</p>
                 </div>
             ):(
-                renderedReservations
+                <>
+                <h2 className="text-center mt-4 mb-2">My Reservations</h2>
+                {renderedReservations}
+                </>
             )}
             
         </div>

@@ -42,13 +42,17 @@ function AdminCustomerLoyalty() {
                 const response = await axios.get(`http://127.0.0.1:8080/customer/getCustomerProfileByContactNumber?
 												contactNumber=${contactNumber}`);
                 
-                setCustomerId(response.data.customerId);
-                setCustomerName(response.data.name);
-                setEmail(response.data.email);
-                setLoyaltyPoints(response.data.loyaltyPoints);
+                    if (response.data===undefined||response.data===""){
+                        alert("No contact number found in database! Try again.")
+                    } else {
+                        setCustomerId(response.data.customerId);
+                        setCustomerName(response.data.name);
+                        setEmail(response.data.email);
+                        setLoyaltyPoints(response.data.loyaltyPoints);
 
-                setLoad(false);
-                
+                        setLoad(false);
+                    }
+                console.log(response)
             } catch (e) {
                 console.log(e);
             }

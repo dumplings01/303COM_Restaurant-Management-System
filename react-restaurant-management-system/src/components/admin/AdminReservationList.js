@@ -63,7 +63,7 @@ function AdminReservationList() {
     function handleDelete(e, value) {
         const name = value.row.customerName;
         const reservationId = value.row.reservationId;
-		var answer = window.confirm("Delete/Cancel reservation for customer "+name+"?\n\n"+
+		var answer = window.confirm("Delete reservation record for customer "+name+"?\n\n"+
                     "ONLY DELETE RESERVATION WHEN CANCELLED OR COMPLETED!");
 		if (answer) {
 			axios.delete(`http://127.0.0.1:8080/reservation/cancelReservation?reservationId=${reservationId}`)

@@ -56,9 +56,9 @@ function AdminCreateReservationSlots() {
         const { value, checked } = e.target;
     
 		if (checked) {
-			setTimes((prevRoles) => [...prevRoles, value]);
+			setTimes((prevTimes) => [...prevTimes, value]);
 		} else {
-			setTimes((prevRoles) => prevRoles.filter((role) => role !== value));
+			setTimes((prevTimes) => prevTimes.filter((time) => time !== value));
 		}
 	};
 
