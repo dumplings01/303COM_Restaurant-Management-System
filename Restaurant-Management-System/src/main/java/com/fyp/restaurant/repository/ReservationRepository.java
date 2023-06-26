@@ -4,7 +4,6 @@ import com.fyp.restaurant.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,9 +15,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
     List<Reservation> findByCustomerId (UUID customerId);
 
     Integer countByCustomerId (UUID customerId);
-
-    Boolean existsByCustomerId(UUID customerId);
-
-    Boolean existsByReservationDate(Date reservationDate);
 
 }

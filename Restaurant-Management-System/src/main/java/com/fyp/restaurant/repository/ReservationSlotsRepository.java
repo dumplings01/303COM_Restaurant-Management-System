@@ -4,7 +4,6 @@ import com.fyp.restaurant.model.ReservationSlots;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Repository
@@ -13,8 +12,4 @@ public interface ReservationSlotsRepository extends JpaRepository<ReservationSlo
     ReservationSlots findBySlotId(UUID slotId);
 
     ReservationSlots findByReservationId(UUID reservationId);
-
-    boolean existsByDate(Date date);
-
-    boolean existsByTime(String time);
 }

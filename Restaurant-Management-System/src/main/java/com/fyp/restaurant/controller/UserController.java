@@ -5,8 +5,6 @@ import com.fyp.restaurant.model.Customer;
 import com.fyp.restaurant.model.UserRequestModel;
 import com.fyp.restaurant.repository.AdminRepository;
 import com.fyp.restaurant.repository.CustomerRepository;
-import com.fyp.restaurant.service.SystemService;
-import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

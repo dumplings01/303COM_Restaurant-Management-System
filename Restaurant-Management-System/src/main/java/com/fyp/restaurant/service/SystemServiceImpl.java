@@ -2,6 +2,8 @@ package com.fyp.restaurant.service;
 
 import com.fyp.restaurant.model.*;
 
+import java.util.List;
+
 public interface SystemServiceImpl {
 
     Admin createStaffAccount (AdminRequestModel adminDetails);
@@ -13,4 +15,9 @@ public interface SystemServiceImpl {
     Stock createStock(StockRequestModel stockDetails);
 
     Supplier createSupplierHistory (SupplierRequestModel supplierDetails);
+
+    void createSlots (List<ReservationSlots> slots);
+
+    Payment registerPaymentDetails (PaymentRequestModel payment);
+
 }
